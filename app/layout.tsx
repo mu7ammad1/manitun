@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import Navigation from "@/components/Navbar/Navbar";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,11 +25,11 @@ export default async function RootLayout({
     <SessionProvider session={session}>
       <html lang="en">
         <body>
-          <main>
+          <ThemeProvider attribute="class" defaultTheme="system">
             <Toaster />
             <Navigation />
             {children}
-          </main>
+          </ThemeProvider>
         </body>
       </html>
     </SessionProvider>
