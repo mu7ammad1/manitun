@@ -1,7 +1,7 @@
 // prisma/schema.prisma
 datasource db {
   provider  = "postgresql"
-  url  	    = env("DATABASE_URL")
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
@@ -15,31 +15,89 @@ enum UserRole {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  password      String?
-  role          UserRole @default(USER)
-  accounts      Account[]
-  isTwoFactorEnabled Boolean @default(false)
+  id                    String                 @id @default(uuid())
+  name                  String?
+  username              String                 @unique @default(cuid())
+  email                 String?                @unique
+  bio                   String?
+  emailVerified         DateTime?
+  image                 String?
+  password              String?
+  role                  UserRole               @default(USER)
+  accounts              Account[]
+  isTwoFactorEnabled    Boolean                @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
+  followers             Follow[]               @relation("FollowerRelation")
+  following             Follow[]               @relation("FollowingRelation")
+  articles              Article[]
+  Comments              Comments[]
+  Like                  Like[]
+}
+
+model Follow {
+  id                String @id @default(uuid())
+  follower          User   @relation("FollowerRelation", fields: [followerUsername], references: [username])
+  followerUsername  String @unique
+  following         User   @relation("FollowingRelation", fields: [followingUsername], references: [username])
+  followingUsername String @unique
+}
+
+model Article {
+  id        String     @id @default(uuid())
+  title     String
+  image     String?
+  content   Json[]
+  author    User       @relation(fields: [authorId], references: [username])
+  authorId  String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  draft     Boolean    @default(false)
+  tags      Tag[]
+  Comments  Comments[]
+  likes     Like[]
+}
+
+model Tag {
+  id       String    @id @default(uuid())
+  tags     String[]
+  articles Article[]
+}
+
+model example {
+  id   String @id @default(uuid())
+  tags Json[]
+}
+
+model Comments {
+  id        String    @id @default(cuid())
+  content   String?
+  createdAt DateTime  @default(now())
+  author    User      @relation(fields: [authorId], references: [username])
+  authorId  String
+  articles  Article[]
+}
+
+model Like {
+  id        String    @id @default(cuid())
+  user      User      @relation(fields: [userId], references: [id])
+  userId    String
+  articles  Article[]
+  createdAt DateTime  @default(now())
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -47,27 +105,27 @@ model Account {
 }
 
 model VerificationToken {
-  id String @id @default(cuid())
-  email String
-  token String @unique
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
   expires DateTime
 
   @@unique([email, token])
 }
 
 model PasswordResetToken {
-  id String @id @default(cuid())
-  email String
-  token String @unique
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
   expires DateTime
 
   @@unique([email, token])
 }
 
 model TwoFactorToken {
-  id String @id @default(cuid())
-  email String
-  token String @unique
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
   expires DateTime
 
   @@unique([email, token])
@@ -77,7 +135,7 @@ model TwoFactorConfirmation {
   id String @id @default(cuid())
 
   userId String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId])
 }

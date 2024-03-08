@@ -40,6 +40,14 @@ export const settings = async (
       return { error: "Email already in use!" }
     }
 
+    const existingUsername = await getUserByEmail(values.email);
+
+    if (existingUsername && existingUsername.username !== user.username) {
+      return { error: "username already in use!" }
+    }
+
+
+
     const verificationToken = await generateVerificationToken(
       values.email
     );
@@ -79,6 +87,7 @@ export const settings = async (
   update({
     user: {
       name: updatedUser.name,
+      username: updatedUser.username as string|| undefined,
       email: updatedUser.email,
       isTwoFactorEnabled: updatedUser.isTwoFactorEnabled,
       role: updatedUser.role,

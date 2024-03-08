@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { LoginButton } from "../auth/login-button";
 import { Button } from "../ui/button";
-import { Poppins } from "next/font/google";
+import { Lilita_One } from "next/font/google";
 import Link from "next/link";
 import { auth } from "@/auth";
 
@@ -14,15 +14,15 @@ import { LogoutButton } from "../auth/logout-button";
 import { ExitIcon } from "@radix-ui/react-icons";
 import { ModeToggle } from "../mode-toggle/mode_toggle";
 
-const font = Poppins({
-  subsets: ["latin-ext"],
-  weight: ["800"],
+const font = Lilita_One({
+  subsets: ["latin"],
+  weight: ["400"],
 });
 
 export default async function Navbar() {
   const session = await auth();
   return (
-    <section className="flex justify-between items-center w-full py-2 px-8">
+    <section className="flex justify-between items-center w-full py-2 px-8 dark:text-white">
       <div>
         {!session ? (
           <LoginButton mode="modal" asChild>
@@ -32,8 +32,11 @@ export default async function Navbar() {
           </LoginButton>
         ) : (
           <div>
+            <ModeToggle />
             <Link href={`/create`} className="mx-5 font-medium">
-              Create
+              <Button variant="secondary" size="lg">
+                Create
+              </Button>
             </Link>
             <Popover>
               <PopoverTrigger className="font-medium">Account</PopoverTrigger>
@@ -65,12 +68,14 @@ export default async function Navbar() {
       <div className="border-0 shadow-none flex items-center">
         <Link href={`/`}>
           <h1
-            className={cn("text-3xl font-medium text-gray-800", font.className)}
+            className={cn(
+              "text-3xl font-medium text-gray-800 dark:text-white",
+              font.className
+            )}
           >
             Manitun
           </h1>
         </Link>
-        <ModeToggle />
       </div>
     </section>
   );

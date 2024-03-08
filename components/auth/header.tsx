@@ -1,10 +1,10 @@
-import { Poppins } from "next/font/google";
+import { Lilita_One } from "next/font/google";
 
 import { cn } from "@/lib/utils";
 
-const font = Poppins({
+const font = Lilita_One({
   subsets: ["latin"],
-  weight: ["600"],
+  weight: ["400"],
 });
 
 interface HeaderProps {
@@ -17,10 +17,10 @@ export const Header = ({
   return (
     <div className="w-full flex flex-col gap-y-4 items-center justify-center">
       <h1 className={cn(
-        "text-3xl font-semibold",
+        "text-3xl font-semibold capitalize",
         font.className,
       )}>
-        🔐 Auth
+        manitun
       </h1>
       <p className="text-muted-foreground text-sm">
         {label}

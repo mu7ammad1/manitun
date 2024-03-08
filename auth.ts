@@ -62,6 +62,9 @@ export const {
       if (session.user) {
         session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
       }
+      if (session.user) {
+        session.user.username = token.username as string;
+      }
 
       if (session.user) {
         session.user.name = token.name;
@@ -84,6 +87,7 @@ export const {
 
       token.isOAuth = !!existingAccount;
       token.name = existingUser.name;
+      token.username = existingUser.username;
       token.email = existingUser.email;
       token.role = existingUser.role;
       token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;

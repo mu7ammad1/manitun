@@ -9,22 +9,9 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 
-export default function Explore() {
-  return (
-    <Card className="*:m-0 *:p-0 shadow-none border-none space-y-2 space-x-0">
-      <Element_1 />
-      <Element_1 />
-      <Element_1 />
-      <Element_1 />
-      <Element_1 />
-      <Element_1 />
-    </Card>
-  );
-}
-
 export const Element_1 = () => {
   return (
-    <Card className="m-0 shadow-none border-none flex flex-row gap-2">
+    <Card className="m-0 shadow-none border-none flex flex-row gap-2 hover: hover:group-[]:bg-zinc-800">
       <CardHeader className="m-2  p-0 basis-10/12">
         <CardFooter className="text-gray-700  m-0 p-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -76,3 +63,16 @@ export const Element_1 = () => {
     </Card>
   );
 };
+
+export default function Explore() {
+  return (
+    <Card className="*:m-0 *:p-0 shadow-none border-none space-y-2 space-x-0">
+      <Element_1 />
+      <Element_1 />
+      <Element_1 />
+      <Element_1 />
+      <Element_1 />
+      <Element_1 />
+    </Card>
+  );
+}
