@@ -3,6 +3,7 @@ import NextAuth, { type DefaultSession } from "next-auth";
 
 export type ExtendedUser = DefaultSession["user"] & {
   username: string;
+  bio: string;
 
   role: UserRole;
   isTwoFactorEnabled: boolean;

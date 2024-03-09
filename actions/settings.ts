@@ -46,6 +46,12 @@ export const settings = async (
       return { error: "username already in use!" }
     }
 
+    const existingBio = await getUserByEmail(values.email);
+
+    if (existingBio && existingBio.username !== user.bio) {
+      return { error: "bio!" }
+    }
+
 
 
     const verificationToken = await generateVerificationToken(
@@ -88,6 +94,7 @@ export const settings = async (
     user: {
       name: updatedUser.name,
       username: updatedUser.username as string|| undefined,
+      bio: updatedUser.bio as string|| undefined,
       email: updatedUser.email,
       isTwoFactorEnabled: updatedUser.isTwoFactorEnabled,
       role: updatedUser.role,

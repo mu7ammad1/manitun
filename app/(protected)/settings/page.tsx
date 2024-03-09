@@ -60,6 +60,7 @@ const SettingsPage = () => {
       newPassword: undefined,
       name: user?.name || undefined,
       username: user?.username || undefined,
+      bio: user?.bio || undefined,
       email: user?.email || undefined,
       role: user?.role || undefined,
       isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined,
@@ -130,6 +131,24 @@ const SettingsPage = () => {
                           <Input
                             {...field}
                             placeholder="username: mu7ammad"
+                            disabled={isPending}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="bio"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Bio</FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder="Bio: Welcome to my profile"
+                            
                             disabled={isPending}
                           />
                         </FormControl>

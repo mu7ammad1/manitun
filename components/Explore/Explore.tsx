@@ -37,7 +37,7 @@ export const Element_1 = () => {
             </h1>
           </Link>
         </CardTitle>
-        <CardDescription className="text-sm font-normal text-neutral-800/90">
+        <CardDescription className="text-sm font-normal text-neutral-800/90 max-md:hidden">
           Neom is an ambitious project envisioned by Saudi Arabia's Crown
           Prince, Mohammed bin Salman, as part of the kingdom's Vision 2030 plan
           to diversify its economy away from oil.
@@ -52,7 +52,7 @@ export const Element_1 = () => {
         <div className="">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            className=" object-cover rounded-md object-center hover:shadow-[6px_6px_0px_0px_#3DFFDC] inset-0 duration-300 snap-proximity hover:scale-x-105 hover:scale-y-105 "
+            className=" object-cover rounded-md object-center hover:shadow-[6px_6px_0px_0px_#3DFFDC] inset-0 duration-300 hover:scale-x-105 hover:scale-y-105 "
             src={
               "https://stablo-pro.web3templates.com/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fcijrdavx%2Fproduction%2F4a21e3f085ed310d00fbbd294eb2392cde7f9acc-3648x3648.jpg%3Fw%3D2000%26auto%3Dformat&w=640&q=75"
             }

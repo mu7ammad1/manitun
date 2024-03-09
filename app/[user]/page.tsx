@@ -1,25 +1,63 @@
+"use client";
 /* eslint-disable @next/next/no-img-element */
+import { useState, useEffect } from "react";
 import Explore from "@/components/Explore/Explore";
+import { Button } from "@/components/ui/button";
 
-export default function Profile({ params }: { params: { profile: string } }) {
+export default function User({ params }: { params: { user: string } }) {
+  const [userData, setUserData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/profile/${params.user}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setUserData(data);
+        } else {
+          setUserData(null); // Reset user data if not found
+        }
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [params.user]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!userData) {
+    return <div>User not found</div>;
+  }
+
   return (
     <main className="flex justify-center max-lg:block gap-5 my-5 mx-2">
       <div className="flex justify-center basis-1/3">
         <div className="max-w-[500px] ">
           <div className="">
-            <div className=" flex justify-center">
+            <div className="flex justify-center">
               <img
                 className="w-24 rounded-full text-center"
-                src="https://stablo-pro.web3templates.com/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fcijrdavx%2Fproduction%2F4a21e3f085ed310d00fbbd294eb2392cde7f9acc-3648x3648.jpg%3Fw%3D2000%26auto%3Dformat&w=640&q=75"
+                src={userData && userData.image}
                 alt=""
               />
             </div>
-            <h4 className="text-2xl font-bold text-center mt-2">mu7ammad</h4>
-            <p className="text-sm font-normal text-left pt-4 px-2 max-lg:text-center">
-              Joshua is a Microsoft Azure Certified Cloud Professional and a
-              Google Certified Associate Cloud Engineer. A Data Analytics at
-              Acme, specializing in the use of cloud infrastructure for Machine
-              Learning and Deep Learning operation at scale.
+            <h4 className="text-2xl font-bold text-center mt-2">
+              {userData && userData.username}
+            </h4>
+            <Button>
+              <input type="submit" value="Follow" />
+            </Button>
+            <p className="text-sm font-normal flex justify-start pt-4 px-2 max-lg:text-center">
+              <span>{userData && userData.bio}</span>
             </p>
           </div>
         </div>

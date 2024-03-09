@@ -23,6 +23,18 @@ export default async function Navbar() {
   const session = await auth();
   return (
     <section className="flex justify-between items-center w-full py-2 px-8 dark:text-white">
+      <div className="border-0 shadow-none flex items-center">
+        <Link href={`/`}>
+          <h1
+            className={cn(
+              "text-3xl font-medium text-gray-800 dark:text-white",
+              font.className
+            )}
+          >
+            Manitun
+          </h1>
+        </Link>
+      </div>
       <div>
         {!session ? (
           <LoginButton mode="modal" asChild>
@@ -64,18 +76,6 @@ export default async function Navbar() {
             </Popover>
           </div>
         )}
-      </div>
-      <div className="border-0 shadow-none flex items-center">
-        <Link href={`/`}>
-          <h1
-            className={cn(
-              "text-3xl font-medium text-gray-800 dark:text-white",
-              font.className
-            )}
-          >
-            Manitun
-          </h1>
-        </Link>
       </div>
     </section>
   );

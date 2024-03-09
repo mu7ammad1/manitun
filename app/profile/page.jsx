@@ -1,28 +1,30 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 
 async function getPostsData() {
-  const res = await fetch(`http://localhost:3000/api/profile`);
+  const res = await fetch(`http://localhost:3000/api/profile/${params}`);
   return res.json();
 }
 
-const Posts = () => {
+const Posts = (params) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true); // حالة التحميل
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getPostsData();
+      const data = await getPostsData(params);
       setPosts(data);
       setLoading(false); // عندما تنتهي عملية التحميل
     };
 
     fetchData();
-  }, []); // يتم استدعاء useEffect مرة واحدة فقط عند التحميل الأولي للمكون
+  }, [params]); // يتم استدعاء useEffect مرة واحدة فقط عند التحميل الأولي للمكون
 
   return (
     <div className={`w-96 dark:text-white`}>
-      <h1 className={` text-xl text-center bg-[#101010] font-bold rounded-md m-5`}>
+      <h1
+        className={` text-xl text-center bg-[#101010] font-bold rounded-md m-5`}
+      >
         posts
       </h1>
       {loading ? (
@@ -31,7 +33,7 @@ const Posts = () => {
         <ul>
           {posts.map((post) => (
             <div key={post.id} className={`flex flex-col gap-5`}>
-              <h1>{post.tags}</h1>
+              <h1>{post.id}</h1>
               {post.tag1}
             </div>
           ))}

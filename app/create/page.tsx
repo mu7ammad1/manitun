@@ -59,40 +59,14 @@ export default function Create() {
   // Creates a new editor instance.
   const editor = useCreateBlockNote({
     schema,
-    initialContent: [
-      {
-        type: "paragraph",
-        content: "Welcome to this demo!",
-      },
-      {
-        type: "paragraph",
-        content: [
-          {
-            type: "mention",
-            props: {
-              user: "Steve",
-            },
-          },
-          {
-            type: "text",
-            text: " <- This is an example mention",
-            styles: {},
-          },
-        ],
-      },
-      {
-        type: "paragraph",
-        content: "Press the '@' key to open the mentions menu and add another",
-      },
-      {
-        type: "paragraph",
-      },
-    ],
+    initialContent: [{}],
   });
+
   // Renders the editor instance using a React component.
   return (
     <div>
       <div>
+        <input type="text" placeholder="Title" className="text-6xl w-full border-none outline-none pl-10 font-semibold placeholder:text-zinc-500 py-2"></input>
         <BlockNoteView
           editor={editor}
           onChange={() => {
