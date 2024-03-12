@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <div className="flex justify-between items-center px-5">
+    <div className="flex justify-between items-center px-5 static bottom-0">
       <div className="space-x-4">
         <Link href={`/contact`}>
           <span className="hover:underline underline-offset-8 decoration-2 decoration-wavy decoration-emerald-500">

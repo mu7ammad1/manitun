@@ -43,29 +43,26 @@ model Follow {
 }
 
 model Article {
-  id        String     @id @default(uuid())
-  title     String
-  image     String?
-  content   Json[]
-  author    User       @relation(fields: [authorId], references: [username])
-  authorId  String
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @default(now()) @updatedAt
-  draft     Boolean    @default(false)
-  tags      Tag[]
-  Comments  Comments[]
-  likes     Like[]
+  id          String     @id @unique
+  title       String
+  description String
+  image       String?
+  content     Json[]
+  author      User       @relation(fields: [authorId], references: [username])
+  authorId    String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @default(now()) @updatedAt
+  draft       Boolean
+  tags        String[]
+  Comments    Comments[]
+  likes       Like[]
 }
 
-model Tag {
-  id       String    @id @default(uuid())
-  tags     String[]
-  articles Article[]
-}
-
-model example {
-  id   String   @id @default(uuid())
-  tags String[]
+model Example {
+  id      String   @id @unique
+  fa      String
+  tags    String[]
+  content Json[]
 }
 
 model Comments {

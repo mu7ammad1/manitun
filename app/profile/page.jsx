@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 
 async function getPostsData() {
-  const res = await fetch(`http://localhost:3000/api/profile/${params}`);
+  const res = await fetch(`https://manitun.vercel.app/api/profile/${params}`);
   return res.json();
 }
 

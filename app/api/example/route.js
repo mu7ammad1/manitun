@@ -4,15 +4,15 @@ import { NextResponse } from "next/server";
 export const POST = async (request) => {
   try {
     // استخراج بيانات المقال من الطلب
-    const { title, image, content, authorId } = await request.json();
+    const { id, fa, tags, content } = await request.json();
 
     // إنشاء المقال باستخدام Prisma Client
-    const newExample = await db.article.create({
+    const newExample = await db.example.create({
       data: {
-        title,
-        image,
+        id,
+        fa,
+        tags,
         content,
-        authorId,
       },
     });
 

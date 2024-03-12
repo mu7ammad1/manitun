@@ -4,20 +4,15 @@ import { NextResponse } from "next/server";
 export const POST = async (request) => {
   try {
     // استخراج بيانات المقال من الطلب
-    const { title, id, description, image, content, authorId, draft, tags } =
-      await request.json();
+    const { title, image, content, authorId } = await request.json();
 
     // إنشاء المقال باستخدام Prisma Client
     const newExample = await db.article.create({
       data: {
         title,
-        id,
-        description,
         image,
         content,
         authorId,
-        draft,
-        tags
       },
     });
 
@@ -38,10 +33,13 @@ export const POST = async (request) => {
 export const GET = async () => {
   try {
     // استعلام عن جميع الأمثلة
-    const examples = await db.user.findMany();
+    const examples = await db.article.findMany();
 
     // إرجاع الأمثلة في حالة نجاح
-    return NextResponse.json({ examples });
+    return NextResponse.json({
+      message: "Example get successfully",
+      data: examples,
+    });
   } catch (error) {
     // إرجاع رسالة خطأ في حالة حدوث خطأ
     return NextResponse.json(
@@ -50,6 +48,8 @@ export const GET = async () => {
     );
   }
 };
+
+
 
 export const DELETE = async (request) => {
   try {

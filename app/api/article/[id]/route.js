@@ -5,27 +5,23 @@ import { NextResponse } from "next/server";
 export const GET = async (request, { params }) => {
   try {
     const { id } = params;
-    // استرداد المستخدم المعين
-    const user = await db.user.findUnique({
+    // User Unique
+    const user = await db.article.findUnique({
       where: {
-        username: id,
+        id: id,
       },
     });
     if (!user) {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
+      return NextResponse.json(
+        { message: "user NOT FOUND", error },
+        { status: 404 }
+      );
     }
 
-    // استرداد المقالات التي يكون المستخدم المعين هو الكاتب لها
-    const articles = await db.article.findMany({
-      where: {
-        authorId: user.username,
-      },
-    });
-
-    return NextResponse.json({ user, articles });
+    return NextResponse.json(user);
   } catch (error) {
     return NextResponse.json(
-      { message: "Error getting user articles", error },
+      { message: "user GET Error", error },
       { status: 500 }
     );
   }
@@ -39,7 +35,7 @@ export const DELETE = async (request) => {
     // حذف العنصر باستخدام Prisma Client
     const deletedExample = await prisma.article.delete({
       where: {
-        title: id, // يفترض أن id هو معرف العنصر المراد حذفه
+        id, // يفترض أن id هو معرف العنصر المراد حذفه
       },
     });
 
