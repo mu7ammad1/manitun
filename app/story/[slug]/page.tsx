@@ -48,7 +48,7 @@ const MyComponent: React.FC<Props> = ({ params }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get<ArticleProps>(
-          `http://localhost:3000/api/article/${params.slug}`
+          `https://manitun.vercel.app/api/article/${params.slug}`
         );
         setArticle(response.data);
       } catch (error) {
