@@ -19,7 +19,7 @@ export default function User({ params }: { params: { user: string } }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/profile/${params.user}`
+          `https://manitun.vercel.app/api/profile/${params.user}`
         );
         if (response.ok) {
           const data = await response.json();
