@@ -133,7 +133,7 @@ export default function EditorUi() {
 
       // إرسال البيانات إلى الخادم
       const response = await axios.post(
-        "http://localhost:3000/api/profile",
+        "https://manitun.vercel.app/api/profile",
         formDataToSend
       );
       console.log("تم إنشاء المقال بنجاح:", response.data);
