@@ -84,7 +84,9 @@ const SettingsPage = () => {
     });
   };
 
-  return (
+  return !user ? (
+    "Please Login First"
+  ) : (
     <Card className="">
       <Dialog>
         <DialogTrigger asChild>
@@ -148,7 +150,6 @@ const SettingsPage = () => {
                           <Input
                             {...field}
                             placeholder="Bio: Welcome to my profile"
-                            
                             disabled={isPending}
                           />
                         </FormControl>

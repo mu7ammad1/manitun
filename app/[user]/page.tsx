@@ -19,7 +19,7 @@ export default function User({ params }: { params: { user: string } }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://manitun.vercel.app/api/profile/${params.user}`
+          `http://localhost:3000/api/profile/${params.user}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -59,7 +59,7 @@ export default function User({ params }: { params: { user: string } }) {
                 <img
                   className="w-12 h-12 outline-2 outline-stone-100 outline rounded-full relative bottom-3"
                   src={userData.user.image}
-                  alt={userData.user.image}
+                  alt={`${userData.user.name}`}
                 />
                 <Button
                   variant={"link"}

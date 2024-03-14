@@ -10,6 +10,7 @@ body,
  
 @layer base {
   :root {
+    
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -80,11 +81,6 @@ body,
     @apply bg-background text-foreground;
   }
 }
-
-.h111 {
-  font-size: xx-large;
-}
-
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -110,3 +106,4 @@ body,
   width: 100%;
   white-space: pre-wrap;
 }
+

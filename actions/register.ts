@@ -16,28 +16,40 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     return { error: "Invalid fields!" };
   }
 
-  const { email, password, name } = validatedFields.data;
+  const { email, password, name} = validatedFields.data;
   const hashedPassword = await bcrypt.hash(password, 10);
-
+  
   const existingUser = await getUserByEmail(email);
-
+  
   if (existingUser) {
     return { error: "Email already in use!" };
   }
+  
+  // توليد اسم المستخدم من البريد الإلكتروني
+  function generateUsernameFromEmail(email: string): string {
+    let username = email.split('@')[0];
+    username = username.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase();
+    return username;
+  }
+   
+  const Gusername = generateUsernameFromEmail(email);
 
-  await db.user.create({
-    data: {
-      name,
-      email,
-      password: hashedPassword,
-    },
-  });
+  try {
+    await db.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+        username: Gusername,
+      },
+    });
 
-  const verificationToken = await generateVerificationToken(email);
-  await sendVerificationEmail(
-    verificationToken.email,
-    verificationToken.token,
-  );
+    const verificationToken = await generateVerificationToken(email);
+    await sendVerificationEmail(verificationToken.email, verificationToken.token);
 
-  return { success: "Confirmation email sent!" };
-};
+    return { success: "Confirmation email sent!" };
+  } catch (error) {
+    console.error("Error registering user:", error);
+    return { error: "Failed to register user!" };
+  }
+}

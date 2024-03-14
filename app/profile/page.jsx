@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 
 async function getPostsData() {
-  const res = await fetch(`https://manitun.vercel.app/api/profile/${params}`);
+  const res = await fetch(`http://localhost:3000/api/profile/${params}`);
   return res.json();
 }
 
@@ -28,7 +28,7 @@ const Posts = (params) => {
         posts
       </h1>
       {loading ? (
-        <div>Loading...</div> // عنصر التحميل يظهر أثناء التحميل
+        <div className="h-full">Loading...</div> // عنصر التحميل يظهر أثناء التحميل
       ) : (
         <ul>
           {posts.map((post) => (

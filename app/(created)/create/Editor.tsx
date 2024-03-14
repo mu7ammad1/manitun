@@ -133,7 +133,7 @@ export default function EditorUi() {
 
       // إرسال البيانات إلى الخادم
       const response = await axios.post(
-        "https://manitun.vercel.app/api/profile",
+        "http://localhost:3000/api/profile",
         formDataToSend
       );
       console.log("تم إنشاء المقال بنجاح:", response.data);
@@ -164,96 +164,100 @@ export default function EditorUi() {
     }
   };
 
-  return (
-    <div>
-      <Tabs defaultValue="Editor" className="w-full h-full">
-        <TabsList className="fixed bottom-0">
-          <TabsTrigger value="Publish">Publish</TabsTrigger>
-          <TabsTrigger value="Editor">Editor</TabsTrigger>
-        </TabsList>
-        <form onSubmit={handleSubmit} className="p-4">
-          <TabsContent value="Editor" className="">
-            <input
-              type="text"
-              placeholder="title"
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              className="border-none focus-within:border-none outline-none text-7xl pr-3 pl-12 py-1 font-extrabold placeholder:text-[#efefef] w-full"
-            />
-            <BlockNoteView
-              editor={editor}
-              onChange={() => {
-                setBlocks(editor.document as Block[]);
-              }}
-            >
-              <SuggestionMenuController
-                triggerCharacter={"@"}
-                getItems={async (query) =>
-                  filterSuggestionItems(getMentionMenuItems(editor), query)
-                }
-              />
-            </BlockNoteView>
-          </TabsContent>
-          <TabsContent value="Publish">
-            <input
-              type="text"
-              placeholder="authorId"
-              name="authorId"
-              value={formData.authorId}
-              onChange={handleChange}
-              className="border border-gray-300 rounded px-4 py-2 mb-4 hidden"
-            />
-            <input
-              type="text"
-              placeholder="id"
-              name="id"
-              value={formData.id}
-              onChange={handleChange}
-              className="border border-gray-300 rounded px-4 py-2 mb-4 hidden"
-            />
-
-            <input
-              type="text"
-              placeholder="description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              className="border border-gray-300 rounded px-4 py-2 mb-4"
-            />
-
-            <input
-              type="file"
-              accept="image/*"
-              placeholder="image"
-              name="image"
-              onChange={handleChange}
-              className="border border-gray-300 rounded px-4 py-2 mb-4"
-            />
-
-            <input
-              type="text"
-              placeholder="tags"
-              name="tags"
-              value={formData.tags}
-              onChange={handleChange}
-              className="border border-gray-300 rounded px-4 py-2 mb-4"
-            />
-
-            <img
-              src={formData.image}
-              alt="صورة المقال"
-              className="max-w-full mb-4"
-            />
-            <button
-              type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded"
-            >
-              إنشاء المقال
-            </button>
-          </TabsContent>
-        </form>
-      </Tabs>
+  return !user ? (
+    <div className="h-full w-full justify-center items-center">
+      يرجي تسجيل الدخول اولا
     </div>
+  ) : (
+    <Tabs defaultValue="Editor">
+      <TabsList className="fixed bottom-0">
+        <TabsTrigger value="Publish">Publish</TabsTrigger>
+        <TabsTrigger value="Editor">Editor</TabsTrigger>
+      </TabsList>
+      <form onSubmit={handleSubmit} className="p-4">
+        <TabsContent value="Editor" className="">
+          <input
+            type="text"
+            placeholder="title"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            className="border-none focus-within:border-none outline-none text-7xl pr-3 pl-12 py-1 font-extrabold placeholder:text-[#efefef] w-full"
+          />
+          <BlockNoteView
+            editor={editor}
+            onChange={() => {
+              setBlocks(editor.document as Block[]);
+            }}
+            data-theming-css-demo
+          >
+            <SuggestionMenuController
+              triggerCharacter={"@"}
+              getItems={async (query) =>
+                filterSuggestionItems(getMentionMenuItems(editor), query)
+              }
+            />
+          </BlockNoteView>
+          {JSON.stringify(blocks)}
+        </TabsContent>
+        <TabsContent value="Publish">
+          <input
+            type="text"
+            placeholder="authorId"
+            name="authorId"
+            value={formData.authorId}
+            onChange={handleChange}
+            className="border border-gray-300 rounded px-4 py-2 mb-4 hidden"
+          />
+          <input
+            type="text"
+            placeholder="id"
+            name="id"
+            value={formData.id}
+            onChange={handleChange}
+            className="border border-gray-300 rounded px-4 py-2 mb-4 hidden"
+          />
+
+          <input
+            type="text"
+            placeholder="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            className="border border-gray-300 rounded px-4 py-2 mb-4"
+          />
+
+          <input
+            type="file"
+            accept="image/*"
+            placeholder="image"
+            name="image"
+            onChange={handleChange}
+            className="border border-gray-300 rounded px-4 py-2 mb-4"
+          />
+
+          <input
+            type="text"
+            placeholder="tags"
+            name="tags"
+            value={formData.tags}
+            onChange={handleChange}
+            className="border border-gray-300 rounded px-4 py-2 mb-4"
+          />
+
+          <img
+            src={formData.image}
+            alt="صورة المقال"
+            className="max-w-full mb-4"
+          />
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            إنشاء المقال
+          </button>
+        </TabsContent>
+      </form>
+    </Tabs>
   );
 }
