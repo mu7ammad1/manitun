@@ -1,12 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import {
-  useState,
-  useEffect,
-  Key,
-} from "react";
-import { format, formatDistanceToNow } from "date-fns";
-import { ar, arEG, enUS } from "date-fns/locale";
+import { useState, useEffect, Key } from "react";
+import { formatDistanceToNow } from "date-fns";
+import { enUS } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -18,7 +14,7 @@ export default function User({ params }: { params: { user: string } }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://manitun.vercel.app/api/profile/${params.user}`
+          `http://localhost:3000/api/profile/${params.user}`
         );
         if (response.ok) {
           const data = await response.json();

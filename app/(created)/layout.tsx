@@ -7,7 +7,7 @@ const CreateLayout = ({ children }: ProtectedLayoutProps) => {
   return (
     <div className="dark:bg-neutral-900">
       {children}
-      <Toaster />
+      <Toaster /> 
     </div>
   );
 };

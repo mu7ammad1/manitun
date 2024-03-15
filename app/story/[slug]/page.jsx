@@ -15,7 +15,7 @@ const MyComponent = ({ params }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://manitun.vercel.app/api/article/${params.slug}`
+          `http://localhost:3000/api/article/${params.slug}`
         );
         if (response.data && response.data.content) {
           setBlockNoteContent(response.data.content);
