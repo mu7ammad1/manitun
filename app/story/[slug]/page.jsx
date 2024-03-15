@@ -15,7 +15,7 @@ const MyComponent = ({ params }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/article/${params.slug}`
+          `https://manitun.vercel.app/api/article/${params.slug}`
         );
         if (response.data && response.data.content) {
           setBlockNoteContent(response.data.content);
@@ -24,7 +24,7 @@ const MyComponent = ({ params }) => {
         console.error("Error fetching data:", error);
       }
     };
-    
+
 
     fetchData();
   }, [params.slug]);
