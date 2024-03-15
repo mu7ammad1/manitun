@@ -25,14 +25,6 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     return { error: "Email already in use!" };
   }
   
-  // توليد اسم المستخدم من البريد الإلكتروني
-  function generateUsernameFromEmail(email: string): string {
-    let username = email.split('@')[0];
-    username = username.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase();
-    return username;
-  }
-   
-  const Gusername = generateUsernameFromEmail(email);
 
   try {
     await db.user.create({
@@ -40,7 +32,6 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
         name,
         email,
         password: hashedPassword,
-        username: Gusername,
       },
     });
 

@@ -50,6 +50,7 @@ useEffect(() => {
 
   return (
     <div className="">
+      <div className="h-52 w-full"></div>
       {data !== null ? (
         <div className="col-span-2 h-full space-y-2">
           {data.length === 0 && <p>لا يوجد مقالات حتى الآن</p>}

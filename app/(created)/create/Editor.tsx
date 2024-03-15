@@ -23,6 +23,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { auth } from "@/auth";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { useTheme } from "next-themes";
 
 const schema = BlockNoteSchema.create({
   inlineContentSpecs: {
@@ -65,6 +66,8 @@ type FormData = {
 
 export default function EditorUi() {
   const user = useCurrentUser();
+  const { resolvedTheme } = useTheme();
+
 
   const [blocks, setBlocks] = useState<Block[]>([]);
   const editor = useCreateBlockNote({
@@ -164,12 +167,13 @@ export default function EditorUi() {
     }
   };
 
+
   return !user ? (
     <div className="h-full w-full justify-center items-center">
       يرجي تسجيل الدخول اولا
     </div>
   ) : (
-    <Tabs defaultValue="Editor">
+    <Tabs defaultValue="Editor" className="min-h-max h-full">
       <TabsList className="fixed bottom-0">
         <TabsTrigger value="Publish">Publish</TabsTrigger>
         <TabsTrigger value="Editor">Editor</TabsTrigger>
@@ -185,10 +189,13 @@ export default function EditorUi() {
             className="border-none focus-within:border-none outline-none text-7xl pr-3 pl-12 py-1 font-extrabold placeholder:text-[#efefef] w-full"
           />
           <BlockNoteView
+            // editable={false}
             editor={editor}
+            theme={resolvedTheme === "dark" ? "dark" : "light"}
             onChange={() => {
               setBlocks(editor.document as Block[]);
             }}
+            
             data-theming-css-demo
           >
             <SuggestionMenuController
@@ -198,7 +205,6 @@ export default function EditorUi() {
               }
             />
           </BlockNoteView>
-          {JSON.stringify(blocks)}
         </TabsContent>
         <TabsContent value="Publish">
           <input

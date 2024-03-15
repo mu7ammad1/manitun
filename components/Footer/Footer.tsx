@@ -4,6 +4,7 @@ import Twitter from "@/public/assets/menu.svg";
 import Facebook from "@/public/assets/menu.svg";
 import Logo from "@/public/assets/menu.svg";
 import Link from "next/link";
+import { ModeToggle } from "../mode-toggle/mode_toggle";
 
 export default function Footer() {
   return (
@@ -30,9 +31,12 @@ export default function Footer() {
           </span>
         </Link>
       </div>
-      <p className="font-normal py-5 text-[#5F7896] text-center">
-        Manitun 2024
-      </p>
+      <div className="flex justify-center items-center gap-5">
+        <ModeToggle />
+        <p className="font-normal py-5 text-[#5F7896] text-center">
+          Manitun 2024
+        </p>
+      </div>
     </div>
   );
 }

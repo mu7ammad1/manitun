@@ -7,7 +7,6 @@ import {
 } from "react";
 import { format, formatDistanceToNow } from "date-fns";
 import { ar, arEG, enUS } from "date-fns/locale";
-import Explore from "@/components/Explore/Explore";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 

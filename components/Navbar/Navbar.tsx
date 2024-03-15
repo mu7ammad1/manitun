@@ -1,24 +1,19 @@
 import { cn } from "@/lib/utils";
 import { LoginButton } from "../auth/login-button";
 import { Button } from "../ui/button";
-import { Lilita_One } from "next/font/google";
+import { Lilita_One, Acme } from "next/font/google";
 import Link from "next/link";
 import { auth } from "@/auth";
-
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { LogoutButton } from "../auth/logout-button";
-import { ExitIcon } from "@radix-ui/react-icons";
-import { ModeToggle } from "../mode-toggle/mode_toggle";
+import { UserButton } from "../auth/user-button";
 
 const font = Lilita_One({
   subsets: ["latin"],
   weight: ["400"],
 });
-
+const searchFont = Acme({
+  subsets: ["latin"],
+  weight: ["400"],
+});
 export default async function Navbar() {
   const session = await auth();
   return (
@@ -35,6 +30,16 @@ export default async function Navbar() {
           </h1>
         </Link>
       </div>
+      <div className="border-0 shadow-none flex items-center">
+        <input
+          type="text"
+          placeholder="Search"
+          className={cn(
+            "text-lg font-medium text-gray-800 dark:text-white py-1 px-4 rounded-full bg-stone-100 w-96 max-md:w-52 max-sm:hidden focus-visible:outline-0",
+            searchFont.className
+          )}
+        />
+      </div>
       <div>
         {!session ? (
           <LoginButton mode="modal" asChild>
@@ -43,37 +48,14 @@ export default async function Navbar() {
             </Button>
           </LoginButton>
         ) : (
-          <div>
-            <ModeToggle />
-            <Link href={`/create`} className="mx-5 font-medium">
-              <Button variant="secondary" size="lg">
-                Create
-              </Button>
+          <div className="flex justify-center items-center gap-5">
+            <Link
+              href={`/create`}
+              className="hover:text-emerald-600 flex justify-center items-center gap-2"
+            >
+              Create
             </Link>
-            <Popover>
-              <PopoverTrigger className="font-medium">Account</PopoverTrigger>
-              <PopoverContent className="space-y-1 *:shadow-none p-1 mr-7 w-60 mt-3">
-                <Button variant="outline" size="lg" className="border-0 w-full">
-                  <Link href={`/settings`}>Settings</Link>
-                </Button>
-                <Button variant="outline" size="lg" className="border-0 w-full">
-                  <Link href={`/settings`}>Settings</Link>
-                </Button>
-                <Button variant="outline" size="lg" className="border-0 w-full">
-                  <Link href={`/settings`}>Settings</Link>
-                </Button>
-                <Button variant="outline" size="lg" className="border-0 w-full">
-                  <Link href={`/settings`}>Settings</Link>
-                </Button>
-                <Button
-                  variant="destructive"
-                  size="lg"
-                  className="border-0 w-full"
-                >
-                  <LogoutButton>Logout</LogoutButton>
-                </Button>
-              </PopoverContent>
-            </Popover>
+            <UserButton />
           </div>
         )}
       </div>
