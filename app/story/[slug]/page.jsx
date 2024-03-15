@@ -9,7 +9,7 @@ import "@blocknote/react/style.css";
 import { useTheme } from "next-themes";
 
 const MyComponent = ({ params }) => {
-  const [blockNoteContent, setBlockNoteContent] = useState(null);
+  const [blockNoteContent, setBlockNoteContent] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
