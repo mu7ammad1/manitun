@@ -43,6 +43,7 @@ export default function User({ params }: { params: { user: string } }) {
     return <div>User not found</div>;
   }
   console.log(userData.articles);
+console.log(userData);
 
   return (
     <main className="flex justify-center">

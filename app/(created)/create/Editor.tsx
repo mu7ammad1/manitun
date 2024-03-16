@@ -18,10 +18,8 @@ import {
   filterSuggestionItems,
 } from "@blocknote/core";
 import { Mention } from "@/components/Mention/Mention";
-import { toast, useToast } from "@/components/ui/use-toast";
+import { toast } from "@/components/ui/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { auth } from "@/auth";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useTheme } from "next-themes";
 
@@ -68,8 +66,8 @@ export default function EditorUi() {
   const user = useCurrentUser();
   const { resolvedTheme } = useTheme();
 
-
   const [blocks, setBlocks] = useState<Block[]>([]);
+
   const editor = useCreateBlockNote({
     schema,
     initialContent: [{}],
@@ -167,7 +165,6 @@ export default function EditorUi() {
     }
   };
 
-
   return !user ? (
     <div className="h-full w-full justify-center items-center">
       يرجي تسجيل الدخول اولا
@@ -195,7 +192,6 @@ export default function EditorUi() {
             onChange={() => {
               setBlocks(editor.document as Block[]);
             }}
-            
             data-theming-css-demo
           >
             <SuggestionMenuController
