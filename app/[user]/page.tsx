@@ -14,7 +14,7 @@ export default function User({ params }: { params: { user: string } }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://manitun.vercel.app/api/profile/${params.user}`
+          `http://manitun.vercel.app/api/profile/${params.user}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -179,43 +179,4 @@ console.log(userData);
       </section>
     </main>
   );
-}
-
-{
-  /* <h2>article.title:{article.title}</h2>
-                  <img src={article.image} alt={article.title} />
-                  {article.titleurl}
-                  <p>Created At: {article.description}</p>
-                  <p>
-                    Created At:
-                    {format(new Date(article.createdAt), "yyyy-MM-dd h:mm a")}
-                  </p>
-                   {format(
-                                new Date(article.createdAt),
-                                "yyyy-MM-dd h:mm a"
-                              )}
-                  <p>
-                    Created:
-                    {formatDistanceToNow(new Date(article.createdAt), {
-                      addSuffix: true,
-                      locale: arEG,
-                    })}
-                  </p> */
-}
-{
-  /* <div>
-                              <h2>{article.title}</h2>
-                              <img src={article.image} alt={article.title} />
-                              <a href={"story/" + article.id}>Read more</a>
-                              <p>
-                                Created:
-                                {formatDistanceToNow(
-                                  new Date(article.createdAt),
-                                  {
-                                    addSuffix: true,
-                                    locale: arEG,
-                                  }
-                                )}
-                              </p>
-                            </div> */
 }

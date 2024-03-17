@@ -4,6 +4,10 @@ import { Block, BlockNoteEditor, PartialBlock } from "@blocknote/core";
 import "@blocknote/core/fonts/inter.css";
 import { BlockNoteView, useCreateBlockNote } from "@blocknote/react";
 import "@blocknote/react/style.css";
+import Skeleton_story from "@/components/Skeleton/Skeleton.story";
+import { cn } from "@/lib/utils";
+import "./story.css";
+import { useTheme } from "next-themes";
 
 async function saveToStorage(jsonBlocks: Block[]) {
   // Save contents to local storage. You might want to debounce this or replace
@@ -20,7 +24,7 @@ async function loadFromStorage() {
 }
 
 export default function User({ params }: { params: { slug: string } }) {
-  const [userData, setUserData] = useState<any>(null);
+  const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [blocks, setBlocks] = useState<Block[]>([]);
 
@@ -32,14 +36,14 @@ export default function User({ params }: { params: { slug: string } }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://manitun.vercel.app/api/article/${params.slug}`
+          `http://manitun.vercel.app/api/article/${params.slug}`
         );
         if (response.ok) {
           const data = await response.json();
-          setUserData(response);
+          setData(data);
           setContent(data.content);
         } else {
-          setUserData(null); // Reset user data if not found
+          setData(null); // Reset user data if not found
         }
         setLoading(false);
       } catch (error) {
@@ -53,6 +57,7 @@ export default function User({ params }: { params: { slug: string } }) {
   }, [params.slug]);
 
   const [content, setContent] = useState();
+  const { resolvedTheme } = useTheme();
 
   // Loads the previously stored editor contents.
   useEffect(() => {
@@ -70,22 +75,23 @@ export default function User({ params }: { params: { slug: string } }) {
   }, [initialContent]);
 
   if (editor === undefined) {
-    return "Loading content...";
+    return <Skeleton_story />;
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Skeleton_story />;
   }
 
-  if (!userData) {
-    return <div>User not found</div>;
+  if (!data) {
+    return <div>Story not found</div>;
   }
 
   console.log(content);
 
   return (
     <main className="flex justify-center">
-      <section className="w-full">
+      <section className={cn("max-w-5xl w-full")}>
+        <h1 className="text-6xl mb-1 px-5">{data.title}</h1>
         <BlockNoteView
           editable={false}
           formattingToolbar={false}
@@ -96,7 +102,9 @@ export default function User({ params }: { params: { slug: string } }) {
           onChange={() => {
             saveToStorage(editor.document);
           }}
+          theme={resolvedTheme === "dark" ? "dark" : "light"}
           editor={editor}
+          data-theming-css-demo
         />
       </section>
     </main>

@@ -6,51 +6,50 @@ import axios from "axios";
 import { formatDistanceToNow } from "date-fns";
 import { enUS } from "date-fns/locale";
 import Link from "next/link";
+import Skeleton_expore from "@/components/Skeleton/Skeleton.expore";
 
 function MyComponent({ params }) {
   const [data, setData] = useState(null);
 
-// دالة ترتيب البيانات عشوائيًا باستخدام Fisher-Yates shuffle algorithm
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+  // دالة ترتيب البيانات عشوائيًا باستخدام Fisher-Yates shuffle algorithm
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+
+    return array;
   }
 
-  return array;
-}
+  // دالة استدعاء البيانات
+  async function fetchData() {
+    try {
+      const response = await axios.get(`http://manitun.vercel.app/api/article`, {
+        headers: {
+          "use-client": "true",
+        },
+      });
 
-// دالة استدعاء البيانات
-async function fetchData() {
-  try {
-    const response = await axios.get(`https://manitun.vercel.app/api/article`, {
-      headers: {
-        "use-client": "true",
-      },
-    });
+      const userData = response.data; // افترض أنه تم تخزين البيانات في userData.articles
 
-    const userData = response.data; // افترض أنه تم تخزين البيانات في userData.articles
+      // ترتيب البيانات عشوائيًا باستخدام Fisher-Yates shuffle algorithm
+      const randomData = shuffleArray(
+        userData.data.filter((article) => article.draft.toString() === "true")
+      );
 
-    // ترتيب البيانات عشوائيًا باستخدام Fisher-Yates shuffle algorithm
-    const randomData = shuffleArray(
-      userData.data.filter((article) => article.draft.toString() === "true")
-    );
-
-    setData(randomData);
-  } catch (error) {
-    console.error("حدث خطأ أثناء جلب البيانات:", error);
+      setData(randomData);
+    } catch (error) {
+      console.error("حدث خطأ أثناء جلب البيانات:", error);
+    }
   }
-}
 
-// استدعاء fetchData() عند تحميل الصفحة
-useEffect(() => {
-  fetchData();
-}, []);
-
+  // استدعاء fetchData() عند تحميل الصفحة
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
-    <div className="">
-      <div className="h-52 w-full"></div>
+    <>
       {data !== null ? (
         <div className="col-span-2 h-full space-y-2">
           {data.length === 0 && <p>لا يوجد مقالات حتى الآن</p>}
@@ -109,9 +108,9 @@ useEffect(() => {
           )}
         </div>
       ) : (
-        <div className="h-full">جاري التحميل...</div>
+        <Skeleton_expore />
       )}
-    </div>
+    </>
   );
 }
 

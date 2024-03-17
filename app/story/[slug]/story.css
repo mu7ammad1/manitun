@@ -1,0 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Mada:wght@200..900&family=Madimi+One&display=swap");
+
+
+.bn-container[data-theming-css-demo] .bn-editor * {
+  font-family: "Mada", sans-serif;
+  font-optical-sizing: auto;
+}
+.bn-container[data-theming-css-demo] .bn-editor a:hover {
+  text-underline-offset: 2px;
+  text-decoration-line: underline;
+}

@@ -6,7 +6,6 @@ export default function Contact() {
     <main>
       <section className="w-full text-center">
         <h1 className="my-10 text-5xl font-bold underline underline-offset-[16px] decoration-[6px] decoration-wavy decoration-emerald-500">
-          {" "}
           &nbsp; &nbsp; Contact &nbsp; &nbsp;
         </h1>
         <h3 className="my-5 text-xl font-normal">We are a here to help.</h3>
