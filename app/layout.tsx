@@ -6,7 +6,6 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/Navbar/Navbar";
 import { ThemeProvider } from "@/components/theme-provider";
-import Footer from "@/components/Footer/Footer";
 import { cn } from "@/lib/utils";
 
 const font = Roboto({ subsets: ["latin"], weight: "400" });
@@ -67,7 +66,6 @@ export default async function RootLayout({
             <Toaster />
             <Navbar />
             {children}
-            <Footer />
           </ThemeProvider>
         </SessionProvider>
       </body>
