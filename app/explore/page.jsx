@@ -7,6 +7,7 @@ import { formatDistanceToNow } from "date-fns";
 import { enUS } from "date-fns/locale";
 import Link from "next/link";
 import Skeleton_expore from "@/components/Skeleton/Skeleton.expore";
+import { LinkWebSite } from "../layout";
 
 function MyComponent({ params }) {
   const [data, setData] = useState(null);
@@ -24,7 +25,7 @@ function MyComponent({ params }) {
   // دالة استدعاء البيانات
   async function fetchData() {
     try {
-      const response = await axios.get(`http://manitun.vercel.app/api/article`, {
+      const response = await axios.get(`${LinkWebSite}/api/article`, {
         headers: {
           "use-client": "true",
         },

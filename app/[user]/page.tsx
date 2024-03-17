@@ -5,6 +5,7 @@ import { formatDistanceToNow } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { LinkWebSite } from "../layout";
 
 export default function User({ params }: { params: { user: string } }) {
   const [userData, setUserData] = useState<any>(null);
@@ -14,11 +15,10 @@ export default function User({ params }: { params: { user: string } }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://manitun.vercel.app/api/profile/${params.user}`
+          `${LinkWebSite}/api/profile/${params.user}`
         );
         if (response.ok) {
           const data = await response.json();
-          // setUserData(data);
           setUserData(data);
           console.log(data.user);
         } else {
@@ -43,7 +43,7 @@ export default function User({ params }: { params: { user: string } }) {
     return <div>User not found</div>;
   }
   console.log(userData.articles);
-console.log(userData);
+  console.log(userData);
 
   return (
     <main className="flex justify-center">

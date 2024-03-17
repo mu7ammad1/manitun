@@ -8,6 +8,7 @@ import Skeleton_story from "@/components/Skeleton/Skeleton.story";
 import { cn } from "@/lib/utils";
 import "./story.css";
 import { useTheme } from "next-themes";
+import { LinkWebSite } from "@/app/layout";
 
 async function saveToStorage(jsonBlocks: Block[]) {
   // Save contents to local storage. You might want to debounce this or replace
@@ -36,7 +37,7 @@ export default function User({ params }: { params: { slug: string } }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://manitun.vercel.app/api/article/${params.slug}`
+          `${LinkWebSite}/api/article/${params.slug}`
         );
         if (response.ok) {
           const data = await response.json();
