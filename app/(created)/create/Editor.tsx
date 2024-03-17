@@ -22,7 +22,6 @@ import { toast } from "@/components/ui/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useTheme } from "next-themes";
-import { LinkWebSite } from "@/app/layout";
 
 const schema = BlockNoteSchema.create({
   inlineContentSpecs: {
@@ -135,7 +134,7 @@ export default function EditorUi() {
 
       // إرسال البيانات إلى الخادم
       const response = await axios.post(
-        `${LinkWebSite}/api/profile`,
+        `${process.env.LinkWebSite}/api/profile`,
         formDataToSend
       );
       console.log("تم إنشاء المقال بنجاح:", response.data);

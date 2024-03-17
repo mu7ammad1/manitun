@@ -5,7 +5,6 @@ import { formatDistanceToNow } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { LinkWebSite } from "../layout";
 
 export default function User({ params }: { params: { user: string } }) {
   const [userData, setUserData] = useState<any>(null);
@@ -15,7 +14,7 @@ export default function User({ params }: { params: { user: string } }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `${LinkWebSite}/api/profile/${params.user}`
+          `${process.env.LinkWebSite}/api/profile/${params.user}`
         );
         if (response.ok) {
           const data = await response.json();
