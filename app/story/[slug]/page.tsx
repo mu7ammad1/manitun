@@ -36,7 +36,7 @@ export default function User({ params }: { params: { slug: string } }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `${process.env.LinkWebSite}/api/article/${params.slug}`
+          `https://manitun.vercel.app/api/article/${params.slug}`
         );
         if (response.ok) {
           const data = await response.json();

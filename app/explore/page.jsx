@@ -24,7 +24,7 @@ function MyComponent({ params }) {
   // دالة استدعاء البيانات
   async function fetchData() {
     try {
-      const response = await axios.get(`${process.env.LinkWebSite}/api/article`, {
+      const response = await axios.get(`https://manitun.vercel.app/api/article`, {
         headers: {
           "use-client": "true",
         },
