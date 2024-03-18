@@ -7,6 +7,12 @@ import { formatDistanceToNow } from "date-fns";
 import { enUS } from "date-fns/locale";
 import Link from "next/link";
 import Skeleton_expore from "@/components/Skeleton/Skeleton.expore";
+import { Elements_two } from "@/components/Elements/ElementsAll";
+import { cn } from "@/lib/utils";
+import { Tajawal } from "next/font/google";
+
+const font = Tajawal({ subsets: ["arabic"], weight: "900" });
+const font1 = Tajawal({ subsets: ["arabic"], weight: "500" });
 
 function MyComponent() {
   const [data, setData] = useState(null);
@@ -49,73 +55,91 @@ function MyComponent() {
   }, []);
 
   return (
-    <div className="flex flex-row">
-      <div className="basis-3/4">
-        {data !== null ? (
-          <div className="col-span-2 h-full space-y-2">
-            {data.length === 0 && <p>لا يوجد مقالات حتى الآن</p>}
-            {data.length > 0 && (
-              <>
-                {data.map((article, id) => (
-                  <div key={id} className="">
-                    <div className="grid grid-cols-4 max-w-7xl w-full rounded-lg p-3 group hover:bg-neutral-100 ease-out duration-300">
-                      <div className="col-span-3">
-                        <Link href={`/story/${article.id}`}>
-                          <div className="flex gap-1 items-center">
-                            <span className="text-sm font-light">
-                              {formatDistanceToNow(
-                                new Date(article.createdAt),
-                                {
+    <div>
+      {data !== null ? (
+        <div className="col-span-2 h-full space-y-2">
+          {data.length === 0 && <p>لا يوجد مقالات حتى الآن</p>}
+          {data.length > 0 && (
+            <>
+              {data.map((article, id) => (
+                <div key={id} className="">
+                  <div className="flex justify-center items-center">
+                    <div className="flex max-w-6xl max-lg:block ">
+                      <div className="basis-[256px] bg-black max-xl:hidden">
+                        fga
+                      </div>
+                      <div>
+                        <div className="w-screen max-w-[1000px] md:max-w-[758px] sm:max-w-[630px] flex *:text-right p-2 group max-sm:block">
+                          <div className="basis-1/2">
+                            {article.image ? (
+                              <div className="flex justify-center">
+                                <img
+                                  src={article.image}
+                                  alt={`mantun.com - ` + article.authorId}
+                                  className="w-full p-2 h-[164px] max-sm:h-full max-md:h-[164px] object-cover object-center rounded-xl group-hover:scale-105 scale-100 group-hover:ease-in duration-300"
+                                />
+                              </div>
+                            ) : (
+                              <div className="hidden"></div>
+                            )}
+                          </div>
+                          <div className="basis-full px-5">
+                            <h1
+                              className={cn(
+                                font.className,
+                                "text-xl font-medium hover:underline hover:underline-offset-8 decoration-emerald-600 mb-3"
+                              )}
+                            >
+                              <Link href={`/story/${article.id}`}>{article.title}</Link>
+                            </h1>
+                            <p
+                              className={cn(
+                                font1.className,
+                                "text-xs font-light italic  text-right -indent-8 pl-5 mb-3"
+                              )}
+                            >
+                              {article.description}
+                            </p>
+                            <div className="flex justify-end items-center gap-5">
+                              <div className="flex justify-center items-center gap-2">
+                                {formatDistanceToNow(new Date(article.createdAt), {
                                   addSuffix: true,
                                   locale: enUS,
-                                }
-                              )}
-                            </span>
+                                })}
+
+                                <span className="bg-[#D9D9D940] py-1 px-3 rounded-full text-xs">
+                                  <Link href={"/tag/" + article.tags[0]}>{article.tags[0]}</Link>
+                                </span>
+                                <span className="bg-[#D9D9D940] py-1 px-3 rounded-full text-xs">
+                                  <Link href={"/tag/" + article.tags[1]}>{article.tags[1]}</Link>
+                                </span>
+                              </div>
+                              <div className="flex justify-center items-center gap-3 rounded-full">
+                                <Link href={article.authorId}>
+                                  <span className="text-xs">{article.authorId}</span>
+                                </Link>
+                                <Link href={article.authorId}>
+                                  <img
+                                    src={article.image}
+                                    alt={"manitun.com - " + article.authorId}
+                                    className="w-5 h-5 rounded-full"
+                                  />
+                                </Link>
+                              </div>
+                            </div>
                           </div>
-                          <h1 className="text-2xl font-bold tracking-wide capitalize line-clamp-2">
-                            {article.title}
-                          </h1>
-                          <p className="text-sm font-normal my-2 antialiased italic ordinal slashed-zero tabular-nums tracking-wide -tracking-2 line-clamp-3 leading-relaxed capitalize	">
-                            {article.description}
-                          </p>
-                          <div className="flex justify-start items-center gap-3 *: *:bg-stone-100 *:px-3 *:rounded-full *:font-extralight *:text-sm">
-                            <Link
-                              href={`/search/${article.tags[0]}`}
-                              className="hover:bg-stone-800 hover:text-white ease-in duration-200"
-                            >
-                              <p className="">{article.tags[0]}</p>
-                            </Link>
-                            <Link
-                              href={`/search/${article.tags[1]}`}
-                              className="hover:bg-stone-800 hover:text-white ease-in duration-200"
-                            >
-                              <p>{article.tags[1]}</p>
-                            </Link>
-                          </div>
-                        </Link>
-                      </div>
-                      {article.image ? (
-                        <div className="flex justify-center">
-                          <img
-                            className="w-full h-28 object-cover object-center rounded-lg group-hover:scale-110 group-hover:shadow-[5px_5px_0px_0px_rgb(16,185,129)] ease-in duration-300"
-                            src={article.image}
-                            alt={article.title}
-                          />
                         </div>
-                      ) : (
-                        <div className="hidden"></div>
-                      )}
+                      </div>
                     </div>
                   </div>
-                ))}
-              </>
-            )}
-          </div>
-        ) : (
-          <Skeleton_expore />
-        )}
-      </div>
-      <div className="basis-1/3">Example</div>
+                </div>
+              ))}
+            </>
+          )}
+        </div>
+      ) : (
+        <Skeleton_expore />
+      )}
     </div>
   );
 }

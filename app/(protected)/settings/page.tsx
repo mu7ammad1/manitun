@@ -259,7 +259,7 @@ const SettingsPage = () => {
           </form>
         </Form>
       </CardHeader>
-
+      {/* 
       <Dialog>
         <DialogTrigger asChild>
           <Button variant="outline">Edit Profile</Button>
@@ -447,7 +447,7 @@ const SettingsPage = () => {
             </Form>
           </CardContent>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </Card>
   );
 };

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Tajawal } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import "./globals.css";
@@ -8,7 +8,7 @@ import Navbar from "@/components/Navbar/Navbar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 
-const font = Roboto({ subsets: ["latin"], weight: "400" });
+const font = Tajawal({ subsets: ["arabic"], weight: "500" });
 
 export const metadata: Metadata = {
   title: "manitun",
