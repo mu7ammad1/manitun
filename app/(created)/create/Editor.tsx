@@ -18,11 +18,12 @@ import {
   filterSuggestionItems,
 } from "@blocknote/core";
 import { Mention } from "@/components/Mention/Mention";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useTheme } from "next-themes";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 
 const schema = BlockNoteSchema.create({
   inlineContentSpecs: {
@@ -68,6 +69,7 @@ export default function EditorUi() {
   const { resolvedTheme } = useTheme();
 
   const [blocks, setBlocks] = useState<Block[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const editor = useCreateBlockNote({
     schema,
@@ -115,9 +117,19 @@ export default function EditorUi() {
       });
     }
   };
+  const router = useRouter();
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
+    if (!formData.title || formData.title.trim() === "") {
+      toast("العنوان مطلوب", {
+        description: "يجب إدخال عنوان قبل النشر",
+        duration: 5000,
+      });
+      return; // لا تقم بالمتابعة في حالة عدم توفر عنوان
+    }
+    setIsSubmitting(true);
+
     try {
       // تحويل قيمة الـ tags إلى مصفوفة بواسطة الفاصلة ","
       const tagsArray = formData.tags
@@ -140,10 +152,11 @@ export default function EditorUi() {
       );
       console.log("تم إنشاء المقال بنجاح:", response.data);
 
-      toast({
-        title: "تم إرسال المقال بنجاح",
-        duration: 5000, // مدة ظهور الرسالة بالميلي ثانية (5 ثواني)
+      toast("تم إرسال المقال بنجاح", {
+        description: Date(),
+        duration: 5000,
       });
+
       // إعادة تعيين حقول الإدخال
       setFormData({
         authorId: user?.username,
@@ -155,14 +168,16 @@ export default function EditorUi() {
         draft: true,
         content: [],
       });
+      setIsSubmitting(false);
+      router.push("/");
     } catch (error: any) {
       console.error("حدث خطأ أثناء إنشاء المقال:", error.response.data);
       // عرض رسالة خطأ باستخدام shadcn
-      toast({
-        title: "حدث خطأ",
-        description: "حدثت مشكلة أثناء إرسال المقال. الرجاء المحاولة مرة أخرى.",
-        duration: 5000, // مدة ظهور الرسالة بالميلي ثانية (5 ثواني)
+      toast("لم يتم إرسال المقال بنجاح", {
+        description: "حدثت مشكلة أثناء إرسال المقال. الرجاء المحاولة مرة أخرى",
+        duration: 5000,
       });
+      setIsSubmitting(false);
     }
   };
 
@@ -171,20 +186,20 @@ export default function EditorUi() {
       يرجي تسجيل الدخول اولا
     </div>
   ) : (
-    <Tabs defaultValue="Editor" className="min-h-max h-full">
+    <Tabs defaultValue="Editor" className="min-h-max h-full w-full">
       <TabsList className="fixed bottom-0 h-10 left-0 right-0 z-50 flex justify-end items-center">
         <TabsTrigger value="Editor">Editor</TabsTrigger>
         <TabsTrigger value="Publish">Publish</TabsTrigger>
       </TabsList>
-      <form onSubmit={handleSubmit} className="p-4">
-        <TabsContent value="Editor" className="">
+      <form onSubmit={handleSubmit} className="p-4 max-w-5xl w-full">
+        <TabsContent value="Editor" className="w-full">
           <input
             type="text"
-            placeholder="title"
+            placeholder="عنوان قصتك ,مقال"
             name="title"
             value={formData.title}
             onChange={handleChange}
-            className="border-none focus-within:border-none outline-none text-7xl pr-3 pl-12 py-1 font-extrabold placeholder:text-[#efefef] w-full"
+            className="border-none focus-within:border-none outline-none text-3xl pr-3 pl-12 py-1 font-extrabold placeholder:text-stone-400 text-right flex justify-end w-full"
           />
           <BlockNoteView
             // editable={false}
@@ -194,6 +209,7 @@ export default function EditorUi() {
               setBlocks(editor.document as Block[]);
             }}
             data-theming-css-demo
+            className="w-full"
           >
             <SuggestionMenuController
               triggerCharacter={"@"}
@@ -203,12 +219,13 @@ export default function EditorUi() {
             />
           </BlockNoteView>
         </TabsContent>
-        <TabsContent value="Publish">
+        <TabsContent value="Publish" className="px-10">
           <input
             type="text"
             placeholder="authorId"
             name="authorId"
             value={formData.authorId}
+            required
             onChange={handleChange}
             className="border border-gray-300 rounded px-4 py-2 mb-4 hidden"
           />
@@ -241,6 +258,7 @@ export default function EditorUi() {
               <button
                 type="submit"
                 className="bg-blue-500 text-white px-4 py-2 rounded "
+                disabled={isSubmitting} // هنا تم تعيين الخاصية disabled
               >
                 إنشاء المقال
               </button>

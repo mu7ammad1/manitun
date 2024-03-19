@@ -87,8 +87,8 @@ export default function User({ params }: { params: { slug: string } }) {
 
   return (
     <main className="flex justify-center">
-      <section className={cn("max-w-5xl w-full")}>
-        <h1 className="text-6xl mb-1 px-5">{data.title}</h1>
+      <section className={cn("max-w-6xl w-full")}>
+        <h1 className="text-6xl px-10 text-right mb-3">{data.title}</h1>
         <BlockNoteView
           editable={false}
           formattingToolbar={false}

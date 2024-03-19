@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 import { cn } from "@/lib/utils";
-import { Tajawal } from "next/font/google";
+import { Mada } from "next/font/google";
 import Link from "next/link";
 import { PiFileImageThin } from "react-icons/pi";
 import {
@@ -18,8 +18,8 @@ import { CiSearch } from "react-icons/ci";
 import { formatDistanceToNow } from "date-fns";
 import { enUS } from "date-fns/locale";
 
-const font = Tajawal({ subsets: ["arabic"], weight: "900" });
-const font1 = Tajawal({ subsets: ["arabic"], weight: "500" });
+const font = Mada({ subsets: ["arabic"], weight: "900" });
+const font1 = Mada({ subsets: ["arabic"], weight: "500" });
 
 export function Elements_one({
   Link_title,

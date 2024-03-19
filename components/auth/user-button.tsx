@@ -14,6 +14,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { LogoutButton } from "@/components/auth/logout-button";
 import Link from "next/link";
 import { FcSettings } from "react-icons/fc";
+import { PiUser } from "react-icons/pi";
 
 export const UserButton = () => {
   const user = useCurrentUser();
@@ -29,18 +30,26 @@ export const UserButton = () => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40 gap-5" align="end">
+        <Link href={`/${user?.username}`}>
+          <DropdownMenuItem className="hover:cursor-pointer ">
+            <PiUser className="h-4 w-4 mr-2" />
+            ملف الشخصي
+          </DropdownMenuItem>
+        </Link>
+        <Link href={`/ana`}>
+          <DropdownMenuItem className="hover:cursor-pointer ">
+            <FcSettings className="h-4 w-4 mr-2" />
+            مقالاتي
+          </DropdownMenuItem>
+        </Link>
         <Link href={`/settings`}>
-          <DropdownMenuItem>
+          <DropdownMenuItem className="hover:cursor-pointer ">
             <FcSettings className="h-4 w-4 mr-2" />
             Settings
           </DropdownMenuItem>
         </Link>
-        <DropdownMenuItem>
-          <FcSettings className="h-4 w-4 mr-2" />
-          Settings
-        </DropdownMenuItem>
         <LogoutButton>
-          <DropdownMenuItem className="text-rose-500">
+          <DropdownMenuItem className="text-rose-500 hover:cursor-pointer">
             <ExitIcon className="h-4 w-4 mr-2" />
             Logout
           </DropdownMenuItem>

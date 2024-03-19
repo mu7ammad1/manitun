@@ -88,7 +88,7 @@ const SettingsPage = () => {
   return !user ? (
     "Please Login First"
   ) : (
-    <Card className="shadow-none border-0">
+    <Card className="shadow-none border-0 w-96 max-sm:w-full max-sm:p-0 max-sm:m-0">
       <CardHeader className="flex justify-center">
         <Form {...form}>
           <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>

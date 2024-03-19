@@ -5,11 +5,22 @@ import { formatDistanceToNow } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Skeleton_user from "@/components/Skeleton/Skeleton.user";
+import { cn } from "@/lib/utils";
+import { Mada } from "next/font/google";
+import { usePathname } from "next/navigation";
+import { useCurrentUser } from "@/hooks/use-current-user";
+
+const font = Mada({ subsets: ["arabic"], weight: "900" });
+const font1 = Mada({ subsets: ["arabic"], weight: "500" });
 
 export default function User({ params }: { params: { user: string } }) {
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+  const Pathname = usePathname();
+
+  const user = useCurrentUser();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -35,7 +46,7 @@ export default function User({ params }: { params: { user: string } }) {
   }, [params.user]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Skeleton_user />;
   }
 
   if (!userData) {
@@ -46,46 +57,55 @@ export default function User({ params }: { params: { user: string } }) {
 
   return (
     <main className="flex justify-center">
-      <section className="gap-3 grid grid-cols-3 max-w-7xl w-full my-7 mx-5 max-md:block">
-        <div className="bg-emerald-400 bg-opacity-85 rounded-t-2xl h-fit max-md:mb-5">
-          <div className="bg-rose-500/0 pt-9">
-            <div className="bg-stone-100 rounded-t-2xl pl-3">
-              <div className="flex justify-between -translate-y-2 items-end">
+      <section className="gap-3 flex justify-center flex-row max-w-6xl h-auto w-full my-7 mx-5 max-lg:block">
+        <div className="basis-96 py-5 px-3 rounded-3xl bg-stone-100 h-min flex justify-center max-lg:mb-5 sticky top-4 max-lg:static">
+          <div className="w-full">
+            <div className="flex justify-end w-full max-lg:justify-center">
+              <Link href={`/${userData.user.username}`}>
                 <img
-                  className="w-12 h-12 outline-2 outline-stone-100 outline rounded-full relative bottom-3"
                   src={userData.user.image}
-                  alt={`${userData.user.name}`}
+                  alt={`${userData.user.image}`}
+                  className="w-24 h-24 rounded-full flex justify-center items-center text-center"
                 />
-                <Button
-                  variant={"link"}
-                  className="hover:bg-stone-300 mr-3 hover:no-underline px-10 text-teal-500"
-                >
-                  Following
-                </Button>
+              </Link>
+            </div>
+            <div className="flex justify-end w-full max-lg:justify-center mb-2">
+              <div className="my-1 mx-5">
+                <Link href={`/${userData.user.username}`}>
+                  <h1 className="text-2xl w-full font-medium text-right max-lg:text-center my-2 font-sans mb-4">
+                    {userData.user.name}
+                  </h1>
+                </Link>
+                <h1 className="text-sm font-normal text-right max-lg:text-center">
+                  {userData.user.bio}
+                </h1>
               </div>
-              <h3 className="font-medium text-lg  relative bottom-3">
-                {userData.user.name}
-              </h3>
-              <p className="font-normal text-xs  relative bottom-2 mb-6 mx-2">
-                {userData.user.bio}
-              </p>
-
-              <hr className="border-stone-300/80 pb-2 mr-4" />
-              <div className="flex gap-5 pt-3 antialiased tracking-wide leading-7 list-decimal capitalize text-ellipsis">
-                <p className="font-semibold text-stone-500/70 text-xs  relative bottom-3 cursor-pointer *:hover:text-emerald-500">
-                  <span className="font-bold text-stone-900/70">230 </span>
-                  <span>Following</span>
-                </p>
-                <p className="font-semibold text-stone-500/70 text-xs  relative bottom-3 cursor-pointer *:hover:text-emerald-500">
-                  <span className="font-bold text-stone-900/70">230 </span>
-                  <span>Following</span>
-                </p>
-              </div>
+            </div>
+            <div className="flex justify-end max-lg:justify-center">
+              {Pathname === `/${user?.username}` ? (
+                <div className="flex justify-center items-center my-5 w-full gap-2">
+                  <Button className="bg-emerald-800 w-min  rounded-full hover:bg-stone-800 max-lg:w-min px-5">
+                    <Link href={`/settings`}>تعديل</Link>
+                  </Button>
+                  <Button className="bg-stone-800 w-full rounded-full hover:bg-stone-800 max-lg:w-52 ease-in duration-300">
+                    لا يمكنك متابعة نفسك
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex justify-center items-center my-5 w-full gap-2">
+                  <Button className="bg-stone-800 w-min  rounded-full hover:bg-stone-800 max-lg:w-min px-5">
+                    ابلاغ
+                  </Button>
+                  <Button className="bg-emerald-500 w-full rounded-full hover:bg-stone-800 max-lg:w-52">
+                    متابعة
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         </div>
 
-        <div className="col-span-2 h-full space-y-2">
+        <div className="basis-full space-y-5">
           {userData.articles.filter(
             (article: { draft: any }) => article.draft.toString() === "true"
           ).length === 0 && <p>لا يوجد مقالات حتى الآن</p>}
@@ -118,57 +138,85 @@ export default function User({ params }: { params: { user: string } }) {
                     draft: { toString: () => any };
                   }) => (
                     <div key={article.id} className="">
-                      <div className="grid grid-cols-4 max-w-7xl w-full rounded-lg p-3 group hover:bg-neutral-100 ease-out duration-300">
-                        <div className="col-span-3">
-                          <Link href={`/story/${article.id}`}>
-                            <div className="flex gap-1 items-center">
-                              <span className="text-sm font-light">
-                                {formatDistanceToNow(
-                                  new Date(article.createdAt),
-                                  {
-                                    addSuffix: true,
-                                    locale: enUS,
-                                  }
+                      <Link href={`story/${article.id}`}>
+                        <div className="flex justify-center items-center hover:bg-stone-100 rounded-3xl ease-in duration-200">
+                          <div className="flex w-full justify-center items-center max-w-6xl max-lg:block ">
+                            <div className="w-full max-w-full flex *:text-right p-2 group max-sm:flex-col-reverse">
+                              <div className="basis-full px-5">
+                                <p className="text-sm">
+                                  {formatDistanceToNow(
+                                    new Date(article.createdAt),
+                                    {
+                                      addSuffix: true,
+                                      locale: enUS,
+                                    }
+                                  )}
+                                </p>
+                                {article.title ? (
+                                  <h1
+                                    className={cn(
+                                      font.className,
+                                      "text-xl font-normal hover:underline hover:underline-offset-8 decoration-emerald-600 mb-3"
+                                    )}
+                                  >
+                                    <Link href={`/story/${article.id}`}>
+                                      {article.title}
+                                    </Link>
+                                  </h1>
+                                ) : (
+                                  <h1
+                                    className={cn(
+                                      font.className,
+                                      "text-xl font-normal hover:underline hover:underline-offset-8 decoration-emerald-600 mb-3"
+                                    )}
+                                  >
+                                    <Link href={`/story/${article.id}`}>
+                                      لا يوجد عنوان محدد
+                                    </Link>
+                                  </h1>
                                 )}
-                              </span>
+                                <p
+                                  className={cn(
+                                    font1.className,
+                                    "text-xs font-light italic  text-right -indent-8 pl-5 mb-3"
+                                  )}
+                                >
+                                  {article.description}
+                                </p>
+                                <div className="flex justify-end items-center gap-5">
+                                  <div className="flex justify-center items-center gap-2">
+                                    {article.tags[0] ? (
+                                      <span className="bg-[#D9D9D940] py-1 px-3 rounded-full text-xs">
+                                        <Link href={"/tag/" + article.tags[0]}>
+                                          {article.tags[0]}
+                                        </Link>
+                                      </span>
+                                    ) : null}
+                                    {article.tags[1] ? (
+                                      <span className="bg-[#D9D9D940] py-1 px-3 rounded-full text-xs">
+                                        <Link href={"/tag/" + article.tags[1]}>
+                                          {article.tags[1]}
+                                        </Link>
+                                      </span>
+                                    ) : null}
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="basis-1/2">
+                                {article.image ? (
+                                  <div className="flex justify-center">
+                                    <img
+                                      src={article.image}
+                                      alt={`mantun.com - ` + article.authorId}
+                                      className="w-full p-2 h-[154px] max-sm:h-[240px] max-md:h-[110px] object-cover object-center rounded-xl group-hover:scale-105 scale-100 group-hover:ease-in duration-300"
+                                    />
+                                  </div>
+                                ) : null}
+                              </div>
                             </div>
-                            <h1 className="text-2xl font-bold tracking-wide capitalize line-clamp-2">
-                              {article.title}
-                            </h1>
-                            <p className="text-sm font-normal my-2 antialiased italic ordinal slashed-zero tabular-nums tracking-wide -tracking-2 line-clamp-3 leading-relaxed capitalize	">
-                              {article.description}
-                            </p>
-                            <div className="flex justify-start items-center gap-3 *: *:bg-stone-100 *:px-3 *:rounded-full *:font-extralight *:text-sm">
-                              <Link
-                                href={`/search/${article.tags[0]}`}
-                                className="hover:bg-stone-800 hover:text-white ease-in duration-200"
-                              >
-                                <p className="">{article.tags[0]}</p>
-                              </Link>
-                              <Link
-                                href={`/search/${article.tags[1]}`}
-                                className="hover:bg-stone-800 hover:text-white ease-in duration-200"
-                              >
-                                <p>{article.tags[1]}</p>
-                              </Link>
-                            </div>
-                          </Link>
+                          </div>
                         </div>
-                        {article.image ? (
-                          <Link
-                            href={`/story/${article.id}`}
-                            className="flex justify-center"
-                          >
-                            <img
-                              className="w-full h-28 object-cover object-center rounded-lg group-hover:scale-110 group-hover:shadow-[5px_5px_0px_0px_rgb(16,185,129)] ease-in duration-300"
-                              src={article.image}
-                              alt={article.title}
-                            />
-                          </Link>
-                        ) : (
-                          <div className="hidden"></div> // أو يمكنك استخدام أي كلاس آخر للتحكم في الظهور والإخفاء
-                        )}
-                      </div>
+                      </Link>
                     </div>
                   )
                 )}

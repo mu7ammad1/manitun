@@ -4,9 +4,9 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { auth } from "@/auth";
 import { UserButton } from "../auth/user-button";
-import { ModeToggle } from "../mode-toggle/mode_toggle";
 import Image from "next/image";
 import icon from "@/public/safari-pinned-tab.svg";
+import { A_hide } from "./A_hide";
 
 export default async function Navbar() {
   const session = await auth();
@@ -32,13 +32,8 @@ export default async function Navbar() {
             </Button>
           </LoginButton>
         ) : (
-          <div className="flex justify-center items-center gap-5">
-            <Link
-              href={`/create`}
-              className="hover:text-emerald-600 flex justify-center items-center gap-2 border px-5 py-1 rounded-lg"
-            >
-              Create
-            </Link>
+          <div className="flex justify-center items-center gap-3">
+            <A_hide />
             <UserButton />
           </div>
         )}
