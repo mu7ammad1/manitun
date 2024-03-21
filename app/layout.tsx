@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mada } from "next/font/google";
+import { Almarai } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import "./globals.css";
@@ -8,7 +8,7 @@ import Navbar from "@/components/Navbar/Navbar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 
-const font = Mada({ subsets: ["arabic"], weight: "500" });
+const font = Almarai({ subsets: ["arabic"], weight: "700" });
 
 export const metadata: Metadata = {
   title: "manitun",

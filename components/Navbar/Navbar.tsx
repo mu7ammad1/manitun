@@ -27,7 +27,7 @@ export default async function Navbar() {
       <div>
         {!session ? (
           <LoginButton mode="modal" asChild>
-            <Button variant="secondary" size="lg" className="rounded-full">
+            <Button variant="secondary" size="lg" className="rounded-full shadow-none">
               Sign in
             </Button>
           </LoginButton>

@@ -45,13 +45,13 @@ export const UserButton = () => {
         <Link href={`/settings`}>
           <DropdownMenuItem className="hover:cursor-pointer ">
             <FcSettings className="h-4 w-4 mr-2" />
-            Settings
+            اعدادات
           </DropdownMenuItem>
         </Link>
         <LogoutButton>
           <DropdownMenuItem className="text-rose-500 hover:cursor-pointer">
             <ExitIcon className="h-4 w-4 mr-2" />
-            Logout
+            تسجيل خروج
           </DropdownMenuItem>
         </LogoutButton>
       </DropdownMenuContent>

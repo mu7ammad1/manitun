@@ -2,10 +2,22 @@
 
 
 .bn-container[data-theming-css-demo] .bn-editor * {
-  font-family: "Mada", sans-serif;
-  font-optical-sizing: auto;
+  line-height: 30px;
 }
-.bn-container[data-theming-css-demo] .bn-editor a:hover {
-  text-underline-offset: 2px;
+.bn-container[data-theming-css-demo] .bn-editor {
+  padding: 0px;
+}
+.bn-container[data-theming-css-demo] .bn-editor p {
+  font-size: 18px;
+  display: block;
+  margin-block-end: 1em;
+}
+
+.bn-container .bn-default-styles:first-child {
+  display: none;
+}
+.bn-container[data-theming-css-demo] .bn-editor a {
+  text-underline-offset: 10px;
   text-decoration-line: underline;
+  text-decoration-color: chocolate;
 }

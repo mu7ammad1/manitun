@@ -11,14 +11,14 @@ export const A_hide = () => {
 
   return (
     <>
-      {pathname === "/create" ? null : (
-        <Button className="bg-emerald-600 shadow-none hover:bg-stone-800 py-1 flex justify-center items-center gap-3">
+      {pathname === "/create" || "edit" ? (
+        <Button className="bg-emerald-600 shadow-none hover:bg-stone-800 flex justify-center items-center gap-3">
           <p className="text-xl">
             <CiEdit />
           </p>
           <Link href={`/create`}>Create</Link>
         </Button>
-      )}
+      ) : null}
     </>
   );
 };

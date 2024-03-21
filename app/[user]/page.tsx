@@ -202,9 +202,9 @@ export default function User({ params }: { params: { user: string } }) {
                                   </div>
                                 </div>
                               </div>
-                              <div className="basis-1/2">
+                              <div className="basis-1/2 w-full">
                                 {article.image ? (
-                                  <div className="flex justify-center">
+                                  <div className="flex justify-center w-full">
                                     <img
                                       src={article.image}
                                       alt={`mantun.com - ` + article.authorId}
