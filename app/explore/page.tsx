@@ -1,5 +1,5 @@
 import Articales from "./Articales";
 
-export default function Explore() {
+export default function ExplorePage() {
   return <Articales />
 }

@@ -1,6 +1,7 @@
+// url : http://localhost:3000/api/follow
+
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
-
 
 export const POST = async (request) => {
   try {
@@ -55,12 +56,13 @@ export const GET = async () => {
 export const DELETE = async (request) => {
   try {
     // استخراج معرف العنصر المراد حذفه من الطلب
-    const { id } = await request.json();
+    const { followingUsername,followerUsername } = await request.json();
 
     // حذف العنصر باستخدام Prisma Client
-    const deletedExample = await prisma.example.delete({
+    const deletedExample = await prisma.follow.delete({
       where: {
-        id, // يفترض أن id هو معرف العنصر المراد حذفه
+        followerUsername,
+        followingUsername
       },
     });
 

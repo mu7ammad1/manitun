@@ -1,0 +1,8 @@
+user-agent: Mediapartners-Google
+Disallow: 
+User-agent: *
+Disallow: /search
+Allow: /
+
+
+Sitemap: https://manitun.vercel.app/sitemap.xml

@@ -27,7 +27,7 @@ export const LoginForm = () => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
   const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
-    ? "Email already in use with different provider!"
+    ? "البريد الإلكتروني قيد الاستخدام بالفعل مع مزود مختلف!"
     : "";
 
   const [showTwoFactor, setShowTwoFactor] = useState(false);
@@ -70,8 +70,8 @@ export const LoginForm = () => {
 
   return (
     <CardWrapper
-      headerLabel="Welcome back"
-      backButtonLabel="Don't have an account?"
+      headerLabel="مرحبا بعودتك"
+      backButtonLabel="ليس لدي حساب؟"
       backButtonHref="/auth/register"
       showSocial
     >
@@ -141,7 +141,7 @@ export const LoginForm = () => {
                         className="px-0 font-normal"
                       >
                         <Link href="/auth/reset">
-                          Forgot password?
+                          لقد نسيت كلمةالسر؟
                         </Link>
                       </Button>
                       <FormMessage />
@@ -156,9 +156,9 @@ export const LoginForm = () => {
           <Button
             disabled={isPending}
             type="submit"
-            className="w-full"
+            className="w-full font-normal bg-emerald-500 hover:bg-stone-800"
           >
-            {showTwoFactor ? "Confirm" : "Login"}
+            {showTwoFactor ? "Confirm" : "تسجيل دخول"}
           </Button>
         </form>
       </Form>

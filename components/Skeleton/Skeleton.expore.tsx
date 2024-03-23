@@ -5,18 +5,6 @@ export default function Skeleton_expore() {
     <div className="flex justify-center items-center">
       <div className="h-full w-full py-5">
         <Function />
-        <Function />
-        <Function />
-        <Function />
-        <Function />
-        <Function />
-        <Function />
-        <Function />
-        <Function />
-        <Function />
-        <Function />
-        <Function />
-        <Function />
       </div>
     </div>
   );
@@ -24,11 +12,14 @@ export default function Skeleton_expore() {
 function Function() {
   return (
     <div className="w-full h-24 flex gap-3 mb-2 p-5 px-10">
-      <div className="basis-full">
-        <Skeleton className="w-full h-24 bg-stone-200 dark:bg-slate-700" />
-      </div>
-      <div className="basis-52">
-        <Skeleton className="w-full h-24 bg-stone-200 dark:bg-slate-700" />
+      <div className="basis-full gap-5">
+        <Skeleton className="w-full h-40 bg-stone-200 dark:bg-slate-700 my-2" />
+        <Skeleton className="w-full h-40 bg-stone-200 dark:bg-slate-700 my-2" />
+        <Skeleton className="w-full h-40 bg-stone-200 dark:bg-slate-700 my-2" />
+        <Skeleton className="w-full h-40 bg-stone-200 dark:bg-slate-700 my-2" />
+        <Skeleton className="w-full h-40 bg-stone-200 dark:bg-slate-700 my-2" />
+        <Skeleton className="w-full h-40 bg-stone-200 dark:bg-slate-700 my-2" />
+        <Skeleton className="w-full h-40 bg-stone-200 dark:bg-slate-700 my-2" />
       </div>
     </div>
   );

@@ -32,6 +32,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { UserRole } from "@prisma/client";
+import { Textarea } from "@/components/ui/textarea";
 
 import {
   Dialog,
@@ -88,8 +89,8 @@ const SettingsPage = () => {
   return !user ? (
     "Please Login First"
   ) : (
-    <Card className="shadow-none border-0 w-96 max-sm:w-full max-sm:p-0 max-sm:m-0">
-      <CardHeader className="flex justify-center">
+    <Card className="shadow-none  border-0 w-96 max-sm:w-full max-sm:p-0 max-sm:m-0">
+      <CardHeader className=" text-right">
         <Form {...form}>
           <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
             <div className="space-y-4">
@@ -98,12 +99,13 @@ const SettingsPage = () => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>اسم</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         placeholder="John Doe"
                         disabled={isPending}
+                        className="text-right"
                       />
                     </FormControl>
                     <FormMessage />
@@ -115,12 +117,13 @@ const SettingsPage = () => {
                 name="username"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Username</FormLabel>
+                    <FormLabel>اسم المستخدم</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         placeholder="username: mu7ammad"
                         disabled={isPending}
+                        className="text-right"
                       />
                     </FormControl>
                     <FormMessage />
@@ -132,12 +135,13 @@ const SettingsPage = () => {
                 name="bio"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Bio</FormLabel>
+                    <FormLabel>موجز</FormLabel>
                     <FormControl>
-                      <Input
+                      <Textarea
                         {...field}
                         placeholder="Bio: Welcome to my profile"
                         disabled={isPending}
+                        className="h-32 text-right"
                       />
                     </FormControl>
                     <FormMessage />
@@ -151,7 +155,7 @@ const SettingsPage = () => {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel>بريد إلكتروني</FormLabel>
                         <FormControl>
                           <Input
                             {...field}
@@ -169,7 +173,7 @@ const SettingsPage = () => {
                     name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Password</FormLabel>
+                        <FormLabel>كلمة السر</FormLabel>
                         <FormControl>
                           <Input
                             {...field}
@@ -187,7 +191,7 @@ const SettingsPage = () => {
                     name="newPassword"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>New Password</FormLabel>
+                        <FormLabel>كلمة السر الجديدة</FormLabel>
                         <FormControl>
                           <Input
                             {...field}
@@ -254,7 +258,7 @@ const SettingsPage = () => {
             <FormError message={error} />
             <FormSuccess message={success} />
             <Button disabled={isPending} type="submit" className="w-full">
-              Save
+              حفظ
             </Button>
           </form>
         </Form>

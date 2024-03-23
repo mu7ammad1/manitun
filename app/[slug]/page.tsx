@@ -10,40 +10,122 @@ import { cn } from "@/lib/utils";
 import { Mada } from "next/font/google";
 import { usePathname } from "next/navigation";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import axios from "axios";
+import { toast } from "sonner";
 
 const font = Mada({ subsets: ["arabic"], weight: "900" });
 const font1 = Mada({ subsets: ["arabic"], weight: "500" });
 
-export default function User({ params }: { params: { user: string } }) {
+export default function User({ params }: { params: { slug: string } }) {
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [isFollowing, setIsFollowing] = useState(false);
 
   const Pathname = usePathname();
 
   const user = useCurrentUser();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `https://manitun.vercel.app/api/profile/${params.user}`
+        const response = await axios.get(
+          `https://manitun.vercel.app/api/profile/${params.slug}`
         );
-        if (response.ok) {
-          const data = await response.json();
-          setUserData(data);
-          console.log(data.user);
+        if (response.status === 200) {
+          setUserData(response.data);
+          // تحديد حالة المتابعة عندما يكون المستخدم متابعًا بالفعل
+          const isUserFollowing = response.data.user.following.some(
+            (follower: any) => follower.followerUsername === user?.username
+          );
+          setIsFollowing(isUserFollowing);
         } else {
           setUserData(null); // Reset user data if not found
         }
         setLoading(false);
       } catch (error) {
         console.error("Error fetching user data:", error);
-
         setLoading(false);
       }
     };
 
     fetchData();
-  }, [params.user]);
+  }, [params.slug, user?.username]);
+
+  const followUser = async () => {
+    try {
+      const response = await axios.post(
+        `https://manitun.vercel.app/api/profile/${params.slug}`,
+        {
+          followerUsername: user?.username,
+          followingUsername: userData?.user?.username,
+        }
+      );
+
+      if (response.status === 200) {
+        setIsFollowing(true);
+        setUserData((prevUserData:any) => ({
+          ...prevUserData,
+          user: {
+            ...prevUserData.user,
+            following: [
+              ...prevUserData.user.following,
+              { followerUsername: user?.username },
+            ],
+          },
+        }));
+        toast("تم إرسال المتابعة بنجاح", {
+          description: Date(),
+          duration: 5000,
+        });
+      } else {
+        console.error("Failed to follow user");
+      }
+    } catch (error) {
+      console.error("Error following user:", error);
+    }
+  };
+
+  const unfollowUser = async () => {
+    try {
+      if (
+        !userData ||
+        !userData.user ||
+        !userData.user.following ||
+        userData.user.following.length === 0
+      ) {
+        console.error("User data or following list is not available");
+        return;
+      }
+
+      const response = await axios.delete(`https://manitun.vercel.app/api/follow`, {
+        data: {
+          followingUsername: userData.user.username,
+          followerUsername: user?.username,
+        },
+      });
+
+      if (response.status === 200) {
+        setIsFollowing(false);
+        setUserData((prevUserData:any) => ({
+          ...prevUserData,
+          user: {
+            ...prevUserData.user,
+            following: prevUserData.user.following.filter(
+              (follower:any) => follower.followerUsername !== user?.username
+            ),
+          },
+        }));
+        toast("تم إلغاء المتابعة بنجاح", {
+          description: Date(),
+          duration: 5000,
+        });
+      } else {
+        console.error("Failed to unfollow user");
+      }
+    } catch (error) {
+      console.error("Error unfollowing user:", error);
+    }
+  };
 
   if (loading) {
     return <Skeleton_user />;
@@ -52,8 +134,6 @@ export default function User({ params }: { params: { user: string } }) {
   if (!userData) {
     return <div>User not found</div>;
   }
-  console.log(userData.articles);
-  console.log(userData);
 
   return (
     <main className="flex justify-center">
@@ -81,27 +161,48 @@ export default function User({ params }: { params: { user: string } }) {
                 </h1>
               </div>
             </div>
-            <div className="flex justify-end max-lg:justify-center">
-              {Pathname === `/${user?.username}` ? (
-                <div className="flex justify-center items-center my-5 w-full gap-2">
-                  <Button className="bg-emerald-800 w-min  rounded-full hover:bg-stone-800 max-lg:w-min px-5">
-                    <Link href={`/settings`}>تعديل</Link>
-                  </Button>
-                  <Button className="bg-stone-800 w-full rounded-full hover:bg-stone-800 max-lg:w-52 ease-in duration-300">
-                    لا يمكنك متابعة نفسك
-                  </Button>
-                </div>
-              ) : (
-                <div className="flex justify-center items-center my-5 w-full gap-2">
-                  <Button className="bg-stone-800 w-min  rounded-full hover:bg-stone-800 max-lg:w-min px-5">
-                    ابلاغ
-                  </Button>
-                  <Button className="bg-emerald-500 w-full rounded-full hover:bg-stone-800 max-lg:w-52">
-                    متابعة
-                  </Button>
-                </div>
-              )}
+
+            <div className="text-right">
+              <h2>عدد المتابعين: {userData.user.following.length}</h2>
             </div>
+            {user ? (
+              <div className="flex justify-end max-lg:justify-center">
+                {Pathname === `/${user?.username}` ? (
+                  <div className="flex justify-center items-center my-5 w-full gap-2">
+                    <Button className="bg-emerald-800 w-min rounded-full hover:bg-stone-800 max-lg:w-min px-5">
+                      <Link href={`/settings`}>تعديل</Link>
+                    </Button>
+                    <Button className="bg-stone-800 w-full rounded-full hover:bg-stone-800 max-lg:w-52 ease-in duration-300">
+                      لا يمكنك متابعة نفسك
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex justify-center items-center my-5 w-full gap-2">
+                    {isFollowing !== true ? (
+                      <Button
+                        className={`bg-emerald-500 w-full rounded-full hover:bg-stone-800 max-lg:w-52`}
+                        onClick={followUser}
+                      >
+                        {isFollowing ? "unfollow" : "متابعة"}
+                      </Button>
+                    ) : (
+                      <Button
+                        className={`bg-emerald-500 w-full rounded-full hover:bg-stone-800 max-lg:w-52`}
+                        onClick={unfollowUser}
+                      >
+                        {isFollowing ? "unfollow" : "متابعة"}
+                      </Button>
+                    )}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="flex justify-center items-center my-5 w-full gap-2">
+                <Button className="bg-emerald-800 w-min rounded-full hover:bg-stone-800 max-lg:w-min px-5">
+                  <Link href={`/auth/login`}>انت غير عضو</Link>
+                </Button>
+              </div>
+            )}
           </div>
         </div>
 

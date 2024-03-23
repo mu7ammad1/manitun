@@ -1,9 +1,9 @@
-import { Lilita_One } from "next/font/google";
+import { Almarai } from "next/font/google";
 
 import { cn } from "@/lib/utils";
 
-const font = Lilita_One({
-  subsets: ["latin"],
+const font = Almarai({
+  subsets: ["arabic"],
   weight: ["400"],
 });
 

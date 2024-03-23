@@ -7,13 +7,15 @@ import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/Navbar/Navbar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const font = Almarai({ subsets: ["arabic"], weight: "700" });
 
 export const metadata: Metadata = {
   title: "manitun",
-  description: "مرحبًا بكم في منصة مانيتون، الوجهة المثالية للكتّاب والمبدعين، حيث يمكنكم نشر أفكاركم وإبداعاتكم بكل سهولة وتواصل مع جمهوركم بطريقة مميزة",
-  keywords:"manitun,maniyn,kateeb,kotaab"
+  description:
+    "مرحبًا بكم في منصة مانيتون، الوجهة المثالية للكتّاب والمبدعين، حيث يمكنكم نشر أفكاركم وإبداعاتكم بكل سهولة وتواصل مع جمهوركم بطريقة مميزة",
+  keywords: "manitun,maniyn,kateeb,kotaab",
 };
 
 export default async function RootLayout({
@@ -60,6 +62,7 @@ export default async function RootLayout({
         <meta name="msapplication-TileColor" content="#ffc40d" />
         <meta name="msapplication-TileImage" content="/mstile-144x144.png" />
         <meta name="theme-color" content="#ffffff" />
+        <meta name="google-adsense-account" content="ca-pub-9565235633569563" />
       </head>
       <body className={cn(font.className)}>
         <SessionProvider session={session}>
@@ -69,6 +72,7 @@ export default async function RootLayout({
             {children}
           </ThemeProvider>
         </SessionProvider>
+        <GoogleAnalytics gaId="G-2HSBZRBC6E" />
       </body>
     </html>
   );

@@ -207,7 +207,7 @@ export default function User({ params }: { params: { user: string } }) {
                                 ) : null}
                                 <div className="flex justify-end items-center gap-3 ">
                                   <Dialog>
-                                    <DialogTrigger>remove</DialogTrigger>
+                                    <DialogTrigger>حذف</DialogTrigger>
                                     <DialogContent>
                                       <DialogHeader>
                                         <DialogTitle>
@@ -232,7 +232,7 @@ export default function User({ params }: { params: { user: string } }) {
                                               <FiLoader />
                                             </div>
                                           ) : (
-                                            "remove"
+                                            "حذف المقال"
                                           )}
                                         </Button>
                                       </DialogHeader>
@@ -243,7 +243,7 @@ export default function User({ params }: { params: { user: string } }) {
                                       <p className="text-xl">
                                         <CiEdit />
                                       </p>
-                                      <p className="text-sm">Edit</p>
+                                      <p className="text-sm">تعديل</p>
                                     </Button>
                                   </Link>
                                 </div>

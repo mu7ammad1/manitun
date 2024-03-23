@@ -11,8 +11,8 @@ export const A_hide = () => {
 
   return (
     <>
-      {pathname === "/create" || "edit" ? (
-        <Button className="bg-emerald-600 shadow-none hover:bg-stone-800 flex justify-center items-center gap-3">
+      {pathname !== "/create" ||  "create" || "edit" || "/edit"  ? (
+        <Button className="bg-emerald-600 shadow-none hover:bg-stone-800 flex justify-center items-center gap-3 rounded-full">
           <p className="text-xl">
             <CiEdit />
           </p>

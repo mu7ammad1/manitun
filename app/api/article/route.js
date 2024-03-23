@@ -33,7 +33,13 @@ export const POST = async (request) => {
 export const GET = async () => {
   try {
     // استعلام عن جميع الأمثلة
-    const examples = await db.article.findMany();
+    const examples = await db.article.findMany({
+      include: {
+        likes: true,
+        author: true,
+        Comments: true,
+      },
+    });
 
     // إرجاع الأمثلة في حالة نجاح
     return NextResponse.json({
@@ -48,8 +54,6 @@ export const GET = async () => {
     );
   }
 };
-
-
 
 export const DELETE = async (request) => {
   try {

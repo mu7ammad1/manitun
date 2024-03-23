@@ -11,6 +11,18 @@ import { useTheme } from "next-themes";
 import { enUS } from "date-fns/locale";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 async function saveToStorage(jsonBlocks: Block[]) {
   // Save contents to local storage. You might want to debounce this or replace
@@ -30,7 +42,7 @@ export default function Storys({ params }: any) {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [blocks, setBlocks] = useState<Block[]>([]);
-
+  const user = useCurrentUser();
   const [initialContent, setInitialContent] = useState<
     PartialBlock[] | undefined | "loading"
   >("loading");
@@ -104,33 +116,61 @@ export default function Storys({ params }: any) {
   if (!data) {
     return <div>Story not found</div>;
   }
+  console.log(data);
 
   return (
-    <main className="flex justify-center">
-      <section className={cn("max-w-3xl w-full mt-10")}>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="title"
-            id="title"
-            placeholder="اكتب العنوان"
-            className="w-full text-4xl font-semibold text-right mb-5"
-            defaultValue={data.article.title}
-          />
+    <form onSubmit={handleSubmit}>
+      <AlertDialog>
+        <AlertDialogTrigger className="fixed bg-emerald-500 bottom-5 px-10 py-2 right-10 rounded-full text-white">
+          نشر
+        </AlertDialogTrigger>
 
-          <BlockNoteView
-            onChange={() => {
-              saveToStorage(editor.document);
-            }}
-            theme={resolvedTheme === "dark" ? "dark" : "light"}
-            editor={editor}
-            data-theming-css-demo
-          />
+        <AlertDialogContent className="w-full h-max">
+          <AlertDialogHeader className="w-full">
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              <main className="flex justify-center">
+                <section className={cn("max-w-3xl w-full mt-10")}>
+                  <input
+                    type="text"
+                    name="title"
+                    id="title"
+                    placeholder="اكتب العنوان"
+                    className="w-full text-4xl font-semibold text-right mb-5"
+                    defaultValue={data.article.title}
+                    disabled={
+                      data.article.authorId === user?.username ? true : false
+                    }
+                  />
 
-          <input type="submit" className="w-full bg-stone-500 text-6xl" value={`ارسال`} />
-        </form>
-      </section>
-    </main>
+                  <BlockNoteView
+                    onChange={() => {
+                      saveToStorage(editor.document);
+                    }}
+                    theme={resolvedTheme === "dark" ? "dark" : "light"}
+                    editor={editor}
+                    data-theming-css-demo
+                    editable={
+                      data.article.authorId === user?.username ? true : false
+                    }
+                  />
+                  {data.article.authorId === user?.username ? (
+                    <input
+                      type="submit"
+                      className="w-full bg-stone-500 text-6xl"
+                      value={`ارسال`}
+                    />
+                  ) : null}
+                </section>
+              </main>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <Button type="submit">إنشاء المقال</Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </form>
   );
 }
 

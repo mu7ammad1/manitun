@@ -95,7 +95,6 @@ export default function Storys({ params }: any) {
   if (!data) {
     return <div>Story not found</div>;
   }
-  console.log(data.userArticles);
 
   return (
     <main className="flex justify-center">
@@ -109,26 +108,26 @@ export default function Storys({ params }: any) {
             <div className="flex justify-end items-center gap-3 ">
               <Button
                 variant={"default"}
-                className="bg-stone-100 hhover:bg-emerald-400 hover:text-white shadow-none text-stone-900 text-xl px-2 rounded-full"
+                className="bg-stone-50/0 hover:bg-[#d4a373] hover:text-white shadow-none text-stone-900 text-xl px-2 rounded-full"
               >
                 <CiBookmarkPlus />
               </Button>
               <Button
                 variant={"default"}
-                className="bg-stone-100 hover:bg-emerald-400 hover:text-rose-400 shadow-none text-stone-900 text-xl px-2 rounded-full"
+                className="bg-stone-50/0 hover:bg-[#d4a373] hover:text-white shadow-none text-stone-900 text-xl px-2 rounded-full"
               >
                 <FaHeart />
               </Button>
               <Button
                 variant={"default"}
-                className="bg-stone-100 hover:bg-emerald-400 shadow-none text-stone-700 text-xl px-2 rounded-full"
+                className="bg-stone-50/0 hover:bg-[#d4a373] hover:text-white shadow-none text-stone-900 text-xl px-2 rounded-full"
               >
                 <FaRegComments />
               </Button>
             </div>
             <div className="flex justify-end items-center gap-3 ">
               <div>
-                <h6 className="text-lg font-light hover:underline">
+                <h6 className="text-base font-light hover:underline">
                   <Link href={`/${data.article.author.username}`}>
                     {data.article.author.name}
                   </Link>
@@ -237,24 +236,23 @@ export default function Storys({ params }: any) {
           </CarouselContent>
         </Carousel>
 
-
         <div className="bg-emerald-500 fixed bottom-5 left-1/2 right-1/2 flex justify-center">
-          <div className="flex justify-end items-center gap-x-5 bg-[#d4a373] px-2 py-2 rounded-full">
+          <div className="flex justify-end items-center bg-white/40 backdrop-blur-md px-2 gap-x-4 py-1 rounded-full">
             <Button
               variant={"default"}
-              className="bg-stone-100 hhover:bg-emerald-400 hover:text-white shadow-none text-stone-900 text-xl px-2 rounded-full"
+              className="bg-stone-50/0 hover:bg-[#d4a373] hover:text-white shadow-none text-stone-900 text-xl px-2 rounded-full"
             >
               <CiBookmarkPlus />
             </Button>
             <Button
               variant={"default"}
-              className="bg-stone-100 hover:bg-emerald-400 hover:text-rose-400 shadow-none text-stone-900 text-xl px-2 rounded-full"
+              className="bg-stone-50/0 hover:bg-[#d4a373] hover:text-white shadow-none text-stone-900 text-xl px-2 rounded-full"
             >
               <FaHeart />
             </Button>
             <Button
               variant={"default"}
-              className="bg-stone-100 hover:bg-emerald-400 shadow-none text-stone-700 text-xl px-2 rounded-full"
+              className="bg-stone-50/0 hover:bg-[#d4a373] hover:text-white shadow-none text-stone-700 text-xl px-2 rounded-full"
             >
               <FaRegComments />
             </Button>
