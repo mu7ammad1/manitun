@@ -57,12 +57,16 @@ export default async function RootLayout({
           sizes="16x16"
           href="/favicon-16x16.png"
         />
+        <meta
+          name="google-site-verification"
+          content="Pjrnb9ipmLRDAG9kfJPg87vlDZAve6cd4UD4RavnAUU"
+        />
+        <meta name="google-adsense-account" content="ca-pub-9565235633569563" />
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
         <meta name="msapplication-TileColor" content="#ffc40d" />
         <meta name="msapplication-TileImage" content="/mstile-144x144.png" />
         <meta name="theme-color" content="#ffffff" />
-        <meta name="google-adsense-account" content="ca-pub-9565235633569563" />
       </head>
       <body className={cn(font.className)}>
         <SessionProvider session={session}>
