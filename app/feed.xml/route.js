@@ -1,23 +1,24 @@
 import RSS from "rss";
-export const getAllArticles = async () => {
-  try {
-    const response = await fetch("https://manitun.vercel.app/api/article", {
-      cache: "no-cache",
-    });
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    const data = await response.json();
-    // Extracting the 'data' array from the response
-    const articles = data.data;
-    return articles;
-  } catch (error) {
-    console.error("There was a problem with the fetch operation:", error);
-    return []; // Return an empty array in case of error
-  }
-};
 
-export async function GET() {
+export default async function GET() {
+  const getAllArticles = async () => {
+    try {
+      const response = await fetch("https://manitun.vercel.app/api/article", {
+        cache: "no-cache",
+      });
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      // Extracting the 'data' array from the response
+      const articles = data.data;
+      return articles;
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+      return []; // Return an empty array in case of error
+    }
+  };
+
   const feed = new RSS({
     title: "manitun",
     description:
@@ -36,7 +37,7 @@ export async function GET() {
   const allPosts = await getAllArticles();
 
   if (allPosts) {
-    allPosts.map((post) => {
+    allPosts.forEach((post) => {
       feed.item({
         title: post.title,
         description: post.description,
