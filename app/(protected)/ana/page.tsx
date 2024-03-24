@@ -21,6 +21,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { WEBSITE } from "@/app/V";
 
 const font = Mada({ subsets: ["arabic"], weight: "900" });
 const font1 = Mada({ subsets: ["arabic"], weight: "500" });
@@ -37,7 +38,7 @@ export default function User({ params }: { params: { user: string } }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://manitun.vercel.app/api/profile/${user?.username}`
+          `${WEBSITE}/api/profile/${user?.username}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -58,7 +59,7 @@ export default function User({ params }: { params: { user: string } }) {
 
   const handleDeleteArticle = async (id: Key) => {
     try {
-      const response = await fetch(`https://manitun.vercel.app/api/article/${id}`, {
+      const response = await fetch(`${WEBSITE}/api/article/${id}`, {
         method: "DELETE",
       });
       if (response.ok) {

@@ -18,6 +18,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { WEBSITE } from "@/app/V";
 
 const font = Mada({ subsets: ["arabic"], weight: "900" });
 const font1 = Mada({ subsets: ["arabic"], weight: "500" });
@@ -35,7 +36,7 @@ const MyComponent_TAg = ({ params }) => {
 
   async function fetchData() {
     try {
-      const response = await axios.get(`https://manitun.vercel.app/api/article`, {
+      const response = await axios.get(`${WEBSITE}/api/article`, {
         headers: {
           "use-client": "true",
         },

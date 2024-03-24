@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { WEBSITE } from "@/app/V";
 
 async function saveToStorage(jsonBlocks: Block[]) {
   // Save contents to local storage. You might want to debounce this or replace
@@ -51,7 +52,7 @@ export default function Storys({ params }: any) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://manitun.vercel.app/api/article/${params}`
+          `${WEBSITE}/api/article/${params}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -181,7 +182,7 @@ async function updateArticle(
 ) {
   try {
     const response = await fetch(
-      `https://manitun.vercel.app/api/article/${articleId}`,
+      `${WEBSITE}/api/article/${articleId}`,
       {
         method: "PUT",
         headers: {

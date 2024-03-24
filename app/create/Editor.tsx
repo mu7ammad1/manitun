@@ -9,7 +9,7 @@ import {
   DefaultReactSuggestionItem,
   useCreateBlockNote,
   SuggestionMenuController,
-  createReactStyleSpec
+  createReactStyleSpec,
 } from "@blocknote/react";
 import "@blocknote/react/style.css";
 import {
@@ -38,6 +38,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
+import { WEBSITE } from "../V";
 
 // // Uploads a file to tmpfiles.org and returns the URL to the uploaded file.
 async function uploadFile(file: File) {
@@ -200,7 +201,7 @@ export default function EditorUi() {
 
       // إرسال البيانات إلى الخادم
       const response = await axios.post(
-        `https://manitun.vercel.app/api/profile`,
+        `${WEBSITE}/api/profile`,
         formDataToSend
       );
       console.log("تم إنشاء المقال بنجاح:", response.data);
@@ -239,11 +240,11 @@ export default function EditorUi() {
       يرجي تسجيل الدخول اولا
     </div>
   ) : (
-    <form onSubmit={handleSubmit} className="p-4 mb-10 max-w-5xl w-full">
-      <AlertDialog>
-        <AlertDialogTrigger className="fixed bg-emerald-500 bottom-5 px-10 py-2 right-10 rounded-full text-white">
-          نشر
-        </AlertDialogTrigger>
+    <AlertDialog>
+      <AlertDialogTrigger className="fixed bg-emerald-500 bottom-5 px-10 py-2 right-10 rounded-full text-white">
+        نشر
+      </AlertDialogTrigger>
+      <form onSubmit={handleSubmit} className="p-4 mb-10 max-w-5xl w-full">
         <input
           type="text"
           placeholder="عنوان قصتك ,مقال"
@@ -253,7 +254,7 @@ export default function EditorUi() {
           className="border-none focus-within:border-none outline-none text-3xl pr-3 pl-12 py-1 font-extrabold placeholder:text-stone-400 text-right flex justify-end w-full"
         />
         <BlockNoteView
-          editable={pathname === `/create` ? true : true}
+          // editable={true}
           editor={editor}
           theme={resolvedTheme === "dark" ? "dark" : "light"}
           onChange={() => {
@@ -271,7 +272,7 @@ export default function EditorUi() {
         </BlockNoteView>
         <AlertDialogContent className="w-full h-max">
           <AlertDialogHeader className="w-full">
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogTitle>انت علي وشك انشاء قصة جديدة</AlertDialogTitle>
             <AlertDialogDescription>
               <input
                 type="text"
@@ -327,19 +328,18 @@ export default function EditorUi() {
                         alt="صورة المقال"
                         className="max-w-full"
                       />
+                      <Button type="submit" disabled={isSubmitting}>
+                        إنشاء المقال
+                      </Button>
                     </div>
                   </div>
                 </div>
               </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <Button type="submit" disabled={isSubmitting}>
-              إنشاء المقال
-            </Button>
-          </AlertDialogFooter>
+          <AlertDialogFooter></AlertDialogFooter>
         </AlertDialogContent>
-      </AlertDialog>
-    </form>
+      </form>
+    </AlertDialog>
   );
 }

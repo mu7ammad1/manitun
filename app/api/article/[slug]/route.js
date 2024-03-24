@@ -7,11 +7,12 @@ export const GET = async (request, { params }) => {
     const { slug } = params;
 
     // استعلام عن المقال الحالي بناءً على الـ slug
-    const articleWithUser = await db.article.findUnique({
+    const articleWithUserAndComments = await db.article.findUnique({
       where: {
         id: slug,
       },
       include: {
+        likes: true,
         author: {
           select: {
             name: true,
@@ -19,11 +20,22 @@ export const GET = async (request, { params }) => {
             username: true,
           },
         },
+        Comments: {
+          include: {
+            author: {
+              select: {
+                name: true,
+                image: true,
+                username: true,
+              },
+            },
+          },
+        },
       },
     });
 
     // التحقق مما إذا كان المقال موجودًا
-    if (!articleWithUser) {
+    if (!articleWithUserAndComments) {
       return NextResponse.json(
         { message: "Article NOT FOUND" },
         { status: 404 }
@@ -33,8 +45,8 @@ export const GET = async (request, { params }) => {
     // استعلام عن جميع المقالات التي كتبها المستخدم
     const userArticles = await db.article.findMany({
       where: {
-        authorId: articleWithUser.authorId,
-        NOT: { id: articleWithUser.id }, // استثناء المقال الحالي
+        authorId: articleWithUserAndComments.authorId,
+        NOT: { id: articleWithUserAndComments.id }, // استثناء المقال الحالي
       },
       take: 5, // قم بتحديد عدد الأخيرة المقالات التي تريد عرضها
       orderBy: {
@@ -44,7 +56,7 @@ export const GET = async (request, { params }) => {
 
     // إرجاع المقال الحالي مع بيانات المستخدم وصورته وأيضًا جميع المقالات التي كتبها المستخدم
     return NextResponse.json({
-      article: articleWithUser,
+      article: articleWithUserAndComments,
       userArticles: userArticles,
     });
   } catch (error) {
@@ -54,8 +66,6 @@ export const GET = async (request, { params }) => {
     );
   }
 };
-
-
 
 
 export const DELETE = async (request, { params }) => {
@@ -97,9 +107,6 @@ export const DELETE = async (request, { params }) => {
   }
 };
 
-
-
-
 export const PUT = async (request, { params }) => {
   try {
     const { slug } = params;
@@ -121,6 +128,10 @@ export const PUT = async (request, { params }) => {
       },
     });
 
+
+
+
+    
     // إرجاع رسالة تأكيد مع البيانات المحدثة
     return NextResponse.json({
       message: "Article updated successfully",
@@ -130,6 +141,48 @@ export const PUT = async (request, { params }) => {
     // إرجاع رسالة خطأ مفصلة في حالة حدوث خطأ
     return NextResponse.json(
       { message: "Failed to update article", error },
+      { status: 500 }
+    );
+  }
+};
+export const POST = async (request, { params }) => {
+  try {
+    const { slug } = params;
+    const data = await request.json();
+
+    // البحث عن المقال بناءً على الـ slug
+    const article = await db.article.findUnique({
+      where: {
+        id: slug,
+      },
+    });
+
+    // التحقق مما إذا كان المقال موجودًا
+    if (!article) {
+      return NextResponse.json(
+        { message: "المقال غير موجود" },
+        { status: 404 }
+      );
+    }
+
+    // إنشاء التعليق
+    const createdComment = await db.comments.create({
+      data: {
+        content: data.content,
+        author: { connect: { username: data.authorUsername } }, // ربط التعليق بالمؤلف
+        articles: { connect: { id: slug } }, // ربط التعليق بالمقال
+      },
+    });
+
+    // إرجاع رسالة نجاح مع التعليق الذي تم إنشاؤه
+    return NextResponse.json({
+      message: "تم إنشاء التعليق بنجاح",
+      comment: createdComment,
+    });
+  } catch (error) {
+    // إرجاع رسالة خطأ في حالة حدوث خطأ
+    return NextResponse.json(
+      { message: "فشل في إنشاء التعليق", error },
       { status: 500 }
     );
   }

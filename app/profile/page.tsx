@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import React from "react";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { toast } from "sonner";
+import { WEBSITE } from "../V";
 
 export default function Page() {
   const user = useCurrentUser();
@@ -42,7 +43,7 @@ export default function Page() {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `https://manitun.vercel.app/api/user/${user?.username}`,
+        `${WEBSITE}/api/user/${user?.username}`,
         formData
       );
       toast.success("تم تغيير ملوماتك بنجاح");

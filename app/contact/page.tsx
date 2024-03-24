@@ -1,21 +1,21 @@
 /* eslint-disable @next/next/no-css-tags */
-import { FaLocationArrow } from "react-icons/fa";
+import { FaLocationArrow, FaMailchimp, FaPhone } from "react-icons/fa";
 
 export default function Contact() {
   return (
     <main>
       <section className="w-full text-center">
         <h1 className="my-10 text-5xl font-bold underline underline-offset-[16px] decoration-[6px] decoration-wavy decoration-emerald-500">
-          &nbsp; &nbsp; Contact &nbsp; &nbsp;
+          &nbsp; &nbsp; اتصال &nbsp; &nbsp;
         </h1>
-        <h3 className="my-5 text-xl font-normal">We are a here to help.</h3>
+        <h3 className="my-5 text-xl font-normal">نحن هنا للمساعدة.</h3>
       </section>
       <section className="mx-10 flex justify-center max-md:grid">
         <div className="basis-2/5">
-          <h1 className="text-2xl font-semibold my-5">Contact Stablo</h1>
+          <h1 className="text-2xl font-semibold my-5">تواصل مع مانيتون</h1>
           <p className="">
-            Have something to say? We are here to help. Fill up the form or send
-            email or call phone.
+            هل لديك ما تقوله؟ نحن هنا للمساعدة. املأ النموذج أو أرسل بريدًا
+            إلكترونيًا أو اتصل بالهاتف.
           </p>
           <div className="my-7 space-y-3">
             <div className="flex items-center space-x-2 ">
@@ -31,7 +31,7 @@ export default function Contact() {
               </span>
             </div>
             <div className="flex items-center space-x-2 ">
-              <FaLocationArrow />
+              <FaMailchimp />
               <span>
                 <a
                   rel="stylesheet"
@@ -43,7 +43,7 @@ export default function Contact() {
               </span>
             </div>
             <div className="flex items-center space-x-2 ">
-              <FaLocationArrow />
+              <FaPhone />
               <span>
                 <a href="tel:+201009758799" target="_blank">
                   +20 (100) 975 8799

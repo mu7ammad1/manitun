@@ -12,6 +12,7 @@ import { usePathname } from "next/navigation";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import axios from "axios";
 import { toast } from "sonner";
+import { WEBSITE } from "../V";
 
 const font = Mada({ subsets: ["arabic"], weight: "900" });
 const font1 = Mada({ subsets: ["arabic"], weight: "500" });
@@ -29,7 +30,7 @@ export default function User({ params }: { params: { slug: string } }) {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://manitun.vercel.app/api/profile/${params.slug}`
+          `${WEBSITE}/api/profile/${params.slug}`
         );
         if (response.status === 200) {
           setUserData(response.data);
@@ -54,7 +55,7 @@ export default function User({ params }: { params: { slug: string } }) {
   const followUser = async () => {
     try {
       const response = await axios.post(
-        `https://manitun.vercel.app/api/profile/${params.slug}`,
+        `${WEBSITE}/api/profile/${params.slug}`,
         {
           followerUsername: user?.username,
           followingUsername: userData?.user?.username,
@@ -97,7 +98,7 @@ export default function User({ params }: { params: { slug: string } }) {
         return;
       }
 
-      const response = await axios.delete(`https://manitun.vercel.app/api/follow`, {
+      const response = await axios.delete(`${WEBSITE}/api/follow`, {
         data: {
           followingUsername: userData.user.username,
           followerUsername: user?.username,

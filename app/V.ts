@@ -1,0 +1,1 @@
+export let WEBSITE = `https://manitun.vercel.app`

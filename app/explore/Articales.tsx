@@ -15,6 +15,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
+import { WEBSITE } from "../V";
 
 interface Article {
   id: string;
@@ -45,7 +46,7 @@ function Articales(): JSX.Element {
   async function fetchData(): Promise<void> {
     try {
       const response = await axios.get<{ data: Article[] }>(
-        `https://manitun.vercel.app/api/article`,
+        `${WEBSITE}/api/article`,
         {
           headers: {
             "use-client": "true",
