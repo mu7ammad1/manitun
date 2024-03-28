@@ -8,7 +8,6 @@ import { enUS } from "date-fns/locale";
 import Link from "next/link";
 import Skeleton_expore from "@/components/Skeleton/Skeleton.expore";
 import { cn } from "@/lib/utils";
-import { Mada } from "next/font/google";
 
 import {
   Carousel,
@@ -19,9 +18,6 @@ import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { WEBSITE } from "@/app/V";
-
-const font = Mada({ subsets: ["arabic"], weight: "900" });
-const font1 = Mada({ subsets: ["arabic"], weight: "500" });
 
 const MyComponent_TAg = ({ params }) => {
   const [data, setData] = useState(null);
@@ -161,7 +157,6 @@ const MyComponent_TAg = ({ params }) => {
                             </p>
                             <h1
                               className={cn(
-                                font.className,
                                 "text-xl font-normal hover:underline hover:underline-offset-8 decoration-emerald-600 mb-3"
                               )}
                             >
@@ -171,7 +166,6 @@ const MyComponent_TAg = ({ params }) => {
                             </h1>
                             <p
                               className={cn(
-                                font1.className,
                                 "text-xs font-light italic  text-right -indent-8 pl-5 mb-3"
                               )}
                             >

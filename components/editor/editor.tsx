@@ -1,10 +1,7 @@
-"use client"
-import {
-    BlockNoteEditor,
-    PartialBlock
-} from "@blocknote/core"
+import React from 'react'
 
-import {
-    BlockNoteView,
-    
-} from "@blocknote/react"
+export default function sssss() {
+  return (
+    <div>sssss</div>
+  )
+}

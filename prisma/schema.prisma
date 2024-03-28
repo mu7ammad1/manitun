@@ -31,16 +31,17 @@ model User {
   following             Follow[]               @relation("FollowingRelation")
   articles              Article[]
   Comments              Comments[]
-  Like                  Like[]
+  likes                 Like[]                 @relation("LikeRelation")
   watching              Watching[]
 }
 
 model Follow {
-  id                String @id @default(uuid())
-  follower          User   @relation("FollowerRelation", fields: [followerUsername], references: [username])
-  followerUsername  String @unique
-  following         User   @relation("FollowingRelation", fields: [followingUsername], references: [username])
-  followingUsername String @unique
+  id                String   @id @default(uuid())
+  follower          User     @relation("FollowerRelation", fields: [followerUsername], references: [username])
+  followerUsername  String   @unique
+  following         User     @relation("FollowingRelation", fields: [followingUsername], references: [username])
+  followingUsername String   @unique
+  createdAt         DateTime @default(now())
 }
 
 model Article {
@@ -56,28 +57,32 @@ model Article {
   draft       Boolean
   tags        String[]
   Comments    Comments[]
-  likes       Like[]
+  likes       Like[]     @relation("LikeRelation")
   Watching    Watching[]
   rating      String?
 }
 
-model Watching {
-  user      User    @relation(fields: [userId], references: [id])
-  userId    String  @id @unique
-  article   Article @relation(fields: [articleId], references: [id])
+model Like {
+  id        String   @id @default(cuid())
+  user      User     @relation("LikeRelation", fields: [userId], references: [username])
+  userId    String
+  article   Article  @relation("LikeRelation", fields: [articleId], references: [id])
   articleId String
+  createdAt DateTime @default(now())
+}
+
+model Watching {
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @id @unique
+  article   Article  @relation(fields: [articleId], references: [id])
+  articleId String
+  createdAt DateTime @default(now())
 }
 
 model TagFollow {
-  id  String  @id @default(uuid())
-  tag String?
-}
-
-model Example {
-  id      String   @id @unique
-  fa      String
-  tags    String[]
-  content Json[]
+  id        String   @id @default(uuid())
+  tag       String?
+  createdAt DateTime @default(now())
 }
 
 model Comments {
@@ -86,14 +91,6 @@ model Comments {
   createdAt DateTime  @default(now())
   author    User      @relation(fields: [authorId], references: [username])
   authorId  String
-  articles  Article[]
-}
-
-model Like {
-  id        String    @id @default(cuid())
-  user      User      @relation(fields: [userId], references: [id])
-  userId    String
-  createdAt DateTime  @default(now())
   articles  Article[]
 }
 

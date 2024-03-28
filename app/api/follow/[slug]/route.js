@@ -61,22 +61,28 @@ export const POST = async (request) => {
     );
   }
 };
-
-export const DELETE = async (request, { params }) => {
+export const DELETE = async (request) => {
   try {
-    const { slug } = params;
+    // استخراج معرف العنصر المراد حذفه من الطلب
+    const { followingUsername, followerUsername } = await request.json();
 
-    // قم بحذف السجل المتابع بناءً على معرف المستخدم
-    await db.follow.delete({
+    // حذف العنصر باستخدام Prisma Client
+    const deletedExample = await prisma.follow.delete({
       where: {
-        id: slug,
+        followerUsername,
+        followingUsername,
       },
     });
 
-    return NextResponse.json({ message: "Unfollowed successfully" });
+    // إرجاع رسالة تأكيد مع البيانات المحذوفة
+    return NextResponse.json({
+      message: "Example deleted successfully",
+      data: deletedExample,
+    });
   } catch (error) {
+    // إرجاع رسالة خطأ مفصلة في حالة حدوث خطأ
     return NextResponse.json(
-      { message: "Error unfollowing user", error },
+      { message: "Failed to delete example", error },
       { status: 500 }
     );
   }

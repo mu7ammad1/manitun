@@ -7,15 +7,11 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Skeleton_user from "@/components/Skeleton/Skeleton.user";
 import { cn } from "@/lib/utils";
-import { Mada } from "next/font/google";
 import { usePathname } from "next/navigation";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import axios from "axios";
 import { toast } from "sonner";
 import { WEBSITE } from "../V";
-
-const font = Mada({ subsets: ["arabic"], weight: "900" });
-const font1 = Mada({ subsets: ["arabic"], weight: "500" });
 
 export default function User({ params }: { params: { slug: string } }) {
   const [userData, setUserData] = useState<any>(null);
@@ -55,7 +51,7 @@ export default function User({ params }: { params: { slug: string } }) {
   const followUser = async () => {
     try {
       const response = await axios.post(
-        `${WEBSITE}/api/profile/${params.slug}`,
+        `${WEBSITE}/api/follow/${params.slug}}`,
         {
           followerUsername: user?.username,
           followingUsername: userData?.user?.username,
@@ -64,7 +60,7 @@ export default function User({ params }: { params: { slug: string } }) {
 
       if (response.status === 200) {
         setIsFollowing(true);
-        setUserData((prevUserData:any) => ({
+        setUserData((prevUserData: any) => ({
           ...prevUserData,
           user: {
             ...prevUserData.user,
@@ -107,12 +103,12 @@ export default function User({ params }: { params: { slug: string } }) {
 
       if (response.status === 200) {
         setIsFollowing(false);
-        setUserData((prevUserData:any) => ({
+        setUserData((prevUserData: any) => ({
           ...prevUserData,
           user: {
             ...prevUserData.user,
             following: prevUserData.user.following.filter(
-              (follower:any) => follower.followerUsername !== user?.username
+              (follower: any) => follower.followerUsername !== user?.username
             ),
           },
         }));
@@ -257,7 +253,6 @@ export default function User({ params }: { params: { slug: string } }) {
                                 {article.title ? (
                                   <h1
                                     className={cn(
-                                      font.className,
                                       "text-xl font-normal hover:underline hover:underline-offset-8 decoration-emerald-600 mb-3"
                                     )}
                                   >
@@ -268,7 +263,6 @@ export default function User({ params }: { params: { slug: string } }) {
                                 ) : (
                                   <h1
                                     className={cn(
-                                      font.className,
                                       "text-xl font-normal hover:underline hover:underline-offset-8 decoration-emerald-600 mb-3"
                                     )}
                                   >
@@ -279,7 +273,6 @@ export default function User({ params }: { params: { slug: string } }) {
                                 )}
                                 <p
                                   className={cn(
-                                    font1.className,
                                     "text-xs font-light italic  text-right -indent-8 pl-5 mb-3"
                                   )}
                                 >

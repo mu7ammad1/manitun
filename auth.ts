@@ -91,7 +91,7 @@ export const {
 
       token.isOAuth = !!existingAccount;
       token.name = existingUser.name;
-      token.username = existingUser.username; // استخدام دالة إنشاء اسم المستخدم
+      token.username = existingUser.username; 
       token.bio = existingUser.bio;
       token.email = existingUser.email;
       token.role = existingUser.role;

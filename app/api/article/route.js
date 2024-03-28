@@ -1,3 +1,4 @@
+// http://localhost:3000/api/article
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 

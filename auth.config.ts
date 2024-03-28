@@ -7,11 +7,23 @@ import Google from "next-auth/providers/google";
 import { LoginSchema } from "@/schemas";
 import { getUserByEmail } from "@/data/user";
 
+// دالة لإنشاء اسم مستخدم من البريد الإلكتروني
+const generateUsernameFromEmail = (email: string) => {
+  const [username] = email.split("@");
+  return username;
+};
 export default {
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
     }),
     Github({
       clientId: process.env.GITHUB_CLIENT_ID,
@@ -23,20 +35,19 @@ export default {
 
         if (validatedFields.success) {
           const { email, password } = validatedFields.data;
-          
+
           const user = await getUserByEmail(email);
           if (!user || !user.password) return null;
 
-          const passwordsMatch = await bcrypt.compare(
-            password,
-            user.password,
-          );
-
-          if (passwordsMatch) return user;
+          const passwordsMatch = await bcrypt.compare(password, user.password);
+          if (passwordsMatch) {
+            const username = generateUsernameFromEmail(email);
+            return { ...user, username };
+          }
         }
 
         return null;
-      }
-    })
+      },
+    }),
   ],
-} satisfies NextAuthConfig
+} satisfies NextAuthConfig;

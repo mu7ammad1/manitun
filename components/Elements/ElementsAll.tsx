@@ -1,7 +1,6 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 import { cn } from "@/lib/utils";
-import { Mada } from "next/font/google";
 import Link from "next/link";
 import { PiFileImageThin } from "react-icons/pi";
 import {
@@ -17,9 +16,6 @@ import { usePathname } from "next/navigation";
 import { CiSearch } from "react-icons/ci";
 import { formatDistanceToNow } from "date-fns";
 import { enUS } from "date-fns/locale";
-
-const font = Mada({ subsets: ["arabic"], weight: "900" });
-const font1 = Mada({ subsets: ["arabic"], weight: "500" });
 
 export function Elements_one({
   Link_title,
@@ -44,7 +40,6 @@ export function Elements_one({
         <p className="text-xs">2024 / 24/ 9</p>
         <h1
           className={cn(
-            font.className,
             "text-xl font-medium hover:underline hover:underline-offset-8 decoration-emerald-600"
           )}
         >
@@ -52,7 +47,6 @@ export function Elements_one({
         </h1>
         <p
           className={cn(
-            font1.className,
             "text-xs font-extralight italic  text-right pl-2 -indent-8"
           )}
         >
@@ -114,7 +108,6 @@ export function Elements_two({
       <div className="basis-full px-5">
         <h1
           className={cn(
-            font.className,
             "text-xl font-medium hover:underline hover:underline-offset-8 decoration-emerald-600 mb-3"
           )}
         >
@@ -122,7 +115,6 @@ export function Elements_two({
         </h1>
         <p
           className={cn(
-            font1.className,
             "text-xs font-light italic  text-right -indent-8 pl-5 mb-3"
           )}
         >
@@ -172,7 +164,9 @@ export function Elements_three() {
                 <Button
                   variant={"outline"}
                   className="border-0 gap-2 bg-stone-200 hover:bg-stone-200 px-5 text-lg rounded-full"
-                >🌙 Ramadan</Button>
+                >
+                  🌙 Ramadan
+                </Button>
               </Link>
             </CarouselItem>
           ) : null}

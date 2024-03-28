@@ -30,39 +30,16 @@ export const POST = async (request) => {
   }
 };
 
-export const GET = async () => {
-  try {
-    // استعلام عن جميع الأمثلة
-    const examples = await db.user.findMany();
-
-    // استعلام عن جميع المتابعين لحساب معين
-    const followers = await db.follow.findMany({
-      where: {
-        followerUsername: "twassul", // استبدل EXAMPLE_USERNAME بمتغير يحتوي على اسم المستخدم للحساب المعين
-      },
-    });
-
-    // إرجاع الأمثلة وجميع المتابعين لحساب معين في حالة نجاح
-    return NextResponse.json({ examples, followers });
-  } catch (error) {
-    // إرجاع رسالة خطأ في حالة حدوث خطأ
-    return NextResponse.json(
-      { message: "Failed to fetch examples and followers", error },
-      { status: 500 }
-    );
-  }
-};
-
 export const DELETE = async (request) => {
   try {
     // استخراج معرف العنصر المراد حذفه من الطلب
-    const { followingUsername,followerUsername } = await request.json();
+    const { followingUsername, followerUsername } = await request.json();
 
     // حذف العنصر باستخدام Prisma Client
     const deletedExample = await prisma.follow.delete({
       where: {
         followerUsername,
-        followingUsername
+        followingUsername,
       },
     });
 

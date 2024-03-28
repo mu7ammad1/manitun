@@ -6,7 +6,6 @@ import { enUS } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Mada } from "next/font/google";
 import { usePathname } from "next/navigation";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import Skeleton_ana from "@/components/Skeleton/Skeleton.ana";
@@ -22,9 +21,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { WEBSITE } from "@/app/V";
-
-const font = Mada({ subsets: ["arabic"], weight: "900" });
-const font1 = Mada({ subsets: ["arabic"], weight: "500" });
 
 export default function User({ params }: { params: { user: string } }) {
   const [userData, setUserData] = useState<any>(null);
@@ -149,7 +145,6 @@ export default function User({ params }: { params: { user: string } }) {
                                 {article.title ? (
                                   <h1
                                     className={cn(
-                                      font.className,
                                       "text-xl font-normal hover:underline hover:underline-offset-8 decoration-emerald-600 mb-3"
                                     )}
                                   >
@@ -160,7 +155,6 @@ export default function User({ params }: { params: { user: string } }) {
                                 ) : (
                                   <h1
                                     className={cn(
-                                      font.className,
                                       "text-xl font-normal hover:underline hover:underline-offset-8 decoration-emerald-600 mb-3"
                                     )}
                                   >
@@ -171,7 +165,6 @@ export default function User({ params }: { params: { user: string } }) {
                                 )}
                                 <p
                                   className={cn(
-                                    font1.className,
                                     "text-xs font-light italic  text-right -indent-8 pl-5 mb-3"
                                   )}
                                 >
