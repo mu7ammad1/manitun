@@ -6,11 +6,13 @@ import Paragraph from "@editorjs/paragraph";
 import List from "@editorjs/list";
 import InlineCode from "@editorjs/inline-code";
 import Link from "@editorjs/link";
-import Image from "@editorjs/image";
+import ImageTool from "@editorjs/image";
 import Embed from "@editorjs/embed";
 import Delimiter from "@editorjs/delimiter";
 import Code from "@editorjs/code";
 import Checklist from "@editorjs/checklist";
+import Quote from "@editorjs/quote";
+
 import dynamic from "next/dynamic";
 import GetStory from "@/rendering/get/getStory";
 import { Button } from "@/components/ui/button";
@@ -18,14 +20,15 @@ import { Button } from "@/components/ui/button";
 const ArticleShot = ({ params }) => {
   const editorInstance = useRef(null);
   const [loading, setLoading] = useState(true);
-  const [articleData, setArticleData] = useState(null);
+  const [contentData, setContentData] = useState(null);
   const [userData, setUserData] = useState(null);
 
+  // GetStory
   useEffect(() => {
     const fetchArticleData = async () => {
       try {
         const data = await GetStory({ slug: params.slug });
-        setArticleData(data.article.content);
+        setContentData(data.article.content);
         setUserData(data.user);
         setLoading(false); // Set loading to false when data is available
       } catch (error) {
@@ -35,8 +38,9 @@ const ArticleShot = ({ params }) => {
     fetchArticleData();
   }, [params.slug]);
 
+  // Editor.js
   useEffect(() => {
-    if (!loading && articleData) {
+    if (!loading && contentData) {
       editorInstance.current = new EditorJS({
         holder: "editorjs",
         readOnly: true,
@@ -46,8 +50,9 @@ const ArticleShot = ({ params }) => {
             config: { placeholder: "عنوان" },
             shortcut: "CMD+SHIFT+H",
           },
+          quote: Quote,
           image: {
-            class: Image,
+            class: ImageTool,
             inlineToolbar: true,
             config: { placeholder: "صورة" },
           },
@@ -55,15 +60,13 @@ const ArticleShot = ({ params }) => {
           list: { class: List, inlineToolbar: true, toolbox: true },
           paragraph: { class: Paragraph, inlineToolbar: true },
         },
+
         onReady: () => {
           console.log("Editor.js is ready to work!");
         },
-        data: articleData[0],
+        data: contentData[0],
         i18n: { direction: "rtl" },
       });
-
-      console.log(articleData);
-
       return () => {
         if (
           editorInstance.current &&
@@ -74,20 +77,32 @@ const ArticleShot = ({ params }) => {
         }
       };
     }
-  }, [loading, articleData]);
+  }, [loading, contentData]);
 
   return (
     <>
       {loading ? (
         <div>Loading...</div>
       ) : (
-        <main className="bg-emerald-500">
+        <main className="bg-[#F8F6E3]">
           <div
             id="editorjs"
-            className="dark:bg-stone-800 *:dark:text-white w-full "
+            className="dark:bg-stone-950 *:dark:text-white w-full px-5"
           ></div>
           <div>
-            
+            <div>
+              <div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://images.pexels.com/photos/11829257/pexels-photo-11829257.jpeg"
+                  alt="af"
+                  className="w-16 h-16 rounded-full object-cover"
+                />
+              </div>
+              <div>
+                <h1>mu7ammad osama</h1>
+              </div>
+            </div>
           </div>
         </main>
       )}
