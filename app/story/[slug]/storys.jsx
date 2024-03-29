@@ -77,6 +77,7 @@ export default function Storys({ params }) {
   const [jsonData, setJsonData] = useState(null);
   const editorInstance = useRef(null);
 
+  // Done
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -104,7 +105,8 @@ export default function Storys({ params }) {
   const user = useCurrentUser();
   const [content, setContent] = useState();
   const { resolvedTheme } = useTheme();
-
+  
+  // Done
   useEffect(() => {
     editorInstance.current = new EditorJS({
       holder: "EditorJS",
@@ -779,7 +781,7 @@ export default function Storys({ params }) {
   const followUser = async () => {
     try {
       const response = await axios.post(
-        `${WEBSITE}/api/follow/${params.slug}}`,
+        `${WEBSITE}/api/follow/${params.slug}`,
         {
           followerUsername: user?.username,
           followingUsername: data?.user?.username,

@@ -75,6 +75,10 @@ body,
   background: #505050;
   border-radius: 20px;
 }
+::selection {
+  color: #ffebb2 !important;
+  background: #007F73 !important;
+}
 
 .ce-block__content,
 .ce-toolbar__content {
@@ -169,4 +173,21 @@ body,
 
 .cdx-quote-settings .cdx-settings-button {
   width: 50% !important;
+}
+.image-tool__caption {
+  padding: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  text-align: center;
+  font-size: small;
+}
+
+.image-tool__image {
+  padding: 0 !important;
+  margin-bottom: 2px !important;
+}
+
+.ce-block:first-child {
+  display: none !important;
+  /* background-color: #505050 !important; */
 }

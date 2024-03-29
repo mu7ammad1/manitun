@@ -34,45 +34,35 @@ export default function Articales() {
     };
     fetchArticleData();
   }, []);
+  console.log(articleData);
 
   return (
     <div>
-      <div className="my-20">
-        <h1 className="text-4xl text-center font-semibold my-12">
+      <div className="py-24 bg-[#ffebb2]/80">
+        <h1 className="text-6xl text-center font-semibold my-12 dark:text-[#007F73]/100">
           استكشف شغفك
         </h1>
-        <div className="flex justify-center items-center my-10 max-sm:w-full">
-          <div className="bg-stone-100 flex justify-center items-center rounded-full max-w-lg w-full max-sm:max-w-xs gap-1 px-2">
-            <div className="text-2xl text-center">
-              <CiSearch />
-            </div>
-            <Input
-              type="search"
-              name="search"
-              id="search"
-              placeholder="Searching"
-              className="py-6 px-2 text-lg rounded-full border-0 shadow-none focus-visible:ring-0 focus-visible:ring-stone-50 placeholder:text-stone-700"
-            />
-          </div>
-        </div>
       </div>
 
       <Suspense fallback={<Skeleton_expore />}>
         {articleData &&
-          articleData.map((article: ArticleData) => (
-            <ViewArticle
-              key={article.id}
-              id={article.id}
-              created={article.createdAt}
-              image={article.image}
-              title={article.title}
-              description={article.description}
-              tags1={article.tags[0]}
-              tags2={article.tags[1]}
-              username={article.author.username}
-              avatar={article.author.image}
-            />
-          ))}
+          articleData.map(
+            (article: ArticleData) =>
+              article.draft && (
+                <ViewArticle
+                  key={article.id}
+                  id={article.id}
+                  created={article.createdAt}
+                  image={article.image}
+                  title={article.title}
+                  description={article.description}
+                  tags1={article.tags[0]}
+                  tags2={article.tags[1]}
+                  username={article.author.username}
+                  avatar={article.author.image}
+                />
+              )
+          )}
       </Suspense>
     </div>
   );

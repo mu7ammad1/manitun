@@ -11,7 +11,8 @@ export const GET = async (request, { params }) => {
       where: {
         id: slug,
       },
-      include: {
+      select: {
+        authorId: true,
         Watching: true,
         likes: true,
         author: {
@@ -21,17 +22,11 @@ export const GET = async (request, { params }) => {
             username: true,
           },
         },
-        Comments: {
-          include: {
-            author: {
-              select: {
-                name: true,
-                image: true,
-                username: true,
-              },
-            },
-          },
-        },
+        content: true,
+        createdAt: true,
+        draft: true,
+        title: true,
+        tags: true,
       },
     });
 
@@ -41,19 +36,6 @@ export const GET = async (request, { params }) => {
         { message: "Article NOT FOUND" },
         { status: 404 }
       );
-    }
-
-    const user = await db.user.findUnique({
-      where: {
-        username: articleWithUserAndComments.authorId,
-      },
-      include: {
-        followers: true, // يتم استرجاع بيانات المتابعين للمستخدم
-        following: true,
-      },
-    });
-    if (!user) {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
     // استعلام عن جميع المقالات التي كتبها المستخدم
@@ -66,13 +48,21 @@ export const GET = async (request, { params }) => {
       orderBy: {
         createdAt: "desc", // ترتيب المقالات بتاريخ الإنشاء بالتنازلي
       },
+      select: {
+        id: true,
+        draft: true,
+        createdAt: true,
+        title: true,
+        tags: true,
+        description: true,
+        image: true,
+      },
     });
 
     // إرجاع المقال الحالي مع بيانات المستخدم وصورته وأيضًا جميع المقالات التي كتبها المستخدم
     return NextResponse.json({
       article: articleWithUserAndComments,
       userArticles: userArticles,
-      user: user,
     });
   } catch (error) {
     return NextResponse.json(
@@ -176,12 +166,6 @@ export const POST = async (request, { params }) => {
       );
     }
 
-
-
-   
-
-
-
     // إنشاء التعليق
     const createdComment = await db.comments.create({
       data: {
@@ -190,15 +174,14 @@ export const POST = async (request, { params }) => {
         articles: { connect: { id: slug } }, // ربط التعليق بالمقال
       },
     });
-    
-     // إنشاء الإعجاب
-     const createdLike = await db.like.create({
+
+    // إنشاء الإعجاب
+    const createdLike = await db.like.create({
       data: {
         user: { connect: { id: userId } }, // ربط الإعجاب بالمستخدم
         articles: { connect: { id: slug } }, // ربط الإعجاب بالمقال
       },
     });
-
 
     // إرجاع رسالة نجاح مع التعليق الذي تم إنشاؤه
     return NextResponse.json({
