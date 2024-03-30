@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Explore from "./explore/page";
 import type { Metadata } from "next";
 
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  return <Explore />
+  return (
+    <Suspense fallback={`Explore.....`}>
+      <Explore />
+    </Suspense>
+  );
 }

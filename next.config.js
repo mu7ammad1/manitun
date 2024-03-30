@@ -6,3 +6,19 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 const nextConfig = {};
 
 module.exports = withBundleAnalyzer(nextConfig);
+
+/** @type {import('next').NextConfig} */
+module.exports = {
+  images: {
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    formats: ["image/avif", "image/webp"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.pexels.com",
+        port: "",
+        pathname: "/photos/*/**",
+      },
+    ],
+  },
+};

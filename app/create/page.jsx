@@ -1,11 +1,14 @@
-import { Toaster } from "@/components/ui/toaster";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
 
-import EditorUi from "./Editor";
+const EditorUi = dynamic(() => import("./Editor"), { ssr: false });
+
 export default function Create() {
   return (
     <div className="w-full flex justify-center items-center">
-      <EditorUi />
-      <Toaster />
+      <Suspense fallback={`component EditorUi is Loading....`}>
+        <EditorUi />
+      </Suspense>
     </div>
   );
 }

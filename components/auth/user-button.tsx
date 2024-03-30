@@ -16,7 +16,7 @@ import Link from "next/link";
 import { FcSettings } from "react-icons/fc";
 import { PiUser } from "react-icons/pi";
 
-export const UserButton = () => {
+const UserButton = () => {
   const user = useCurrentUser();
 
   return (
@@ -58,3 +58,5 @@ export const UserButton = () => {
     </DropdownMenu>
   );
 };
+
+export default UserButton;

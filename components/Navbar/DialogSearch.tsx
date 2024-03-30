@@ -14,9 +14,9 @@ export default function DialogSearch() {
   return (
     <Dialog>
       <DialogTrigger>
-        <div className="text-xl rounded-full bg-secondary p-2">
+        <Button variant={"secondary"} className="text-xl rounded-full p-2">
           <CiSearch />
-        </div>
+        </Button>
       </DialogTrigger>
       <DialogContent className="max-h-full">
         <DialogHeader>

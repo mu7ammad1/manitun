@@ -1,5 +1,6 @@
 "use client";
 import React, { useRef, useEffect, useState, Suspense } from "react";
+
 import EditorJS from "@editorjs/editorjs";
 import Header from "@editorjs/header";
 import Paragraph from "@editorjs/paragraph";
@@ -13,11 +14,12 @@ import Code from "@editorjs/code";
 import Checklist from "@editorjs/checklist";
 import Quote from "@editorjs/quote";
 
+import "@/app/editor.css";
+
 import GetStory from "@/rendering/get/getStory";
 import dynamic from "next/dynamic";
 
-const Follow = dynamic(() => import("./follow"));
-const Comment = dynamic(() => import("./comment"));
+const HeetProfile = dynamic(() => import("./HeetProfile"), { ssr: false });
 
 const ArticleShot = ({ params }) => {
   const editorInstance = useRef(null);
@@ -86,21 +88,22 @@ const ArticleShot = ({ params }) => {
       {loading ? (
         <span>Loading...</span>
       ) : (
-        <main className="max-w-4xl">
-          <h1 className={`text-right text-2xl font-bold py-5`}>
+        <main className="max-w-4xl w-full px-4 my-3">
+          <h1 className={`text-right text-2xl font-bold`}>
             {articleData.title}
           </h1>
+          <Suspense fallback={<span>HeetProfile.....</span>}>
+            <HeetProfile
+              Author={articleData.authorId}
+              name={articleData.author.name}
+              date={articleData.createdAt}
+              slug={params.slug}
+            />
+          </Suspense>
           <div
             id="editorjs"
             className="dark:bg-stone-950 *:dark:text-white w-full"
           ></div>
-
-          <Suspense fallback={<span>Comment.....</span>}>
-            <Comment articleId={params.slug} />
-          </Suspense>
-          <Suspense fallback={<span>Follow.....</span>}>
-            <Follow IdAuthor={articleData.authorId} />
-          </Suspense>
         </main>
       )}
     </main>

@@ -59,7 +59,7 @@ export default function ViewArticle({
           <CardFooter className="p-0 flex justify-end items-start gap-x-2 pt-1">
             {tags1 ? (
               <Link
-                href={`tag/${tags1}`}
+                href={`/tag/${tags1}`}
                 className="bg-stone-200 dark:bg-stone-800 px-3 py-[2px] rounded-full text-xs max-sm:hidden"
               >
                 {tags1}
@@ -67,13 +67,13 @@ export default function ViewArticle({
             ) : null}
             {tags2 ? (
               <Link
-                href={`tag/${tags2}`}
+                href={`/tag/${tags2}`}
                 className="bg-stone-200 dark:bg-stone-800 px-3 py-[2px] rounded-full text-xs max-sm:hidden"
               >
                 {tags2}
               </Link>
             ) : null}
-            <Link href={`${username}`} className="flex items-center gap-x-3">
+            <Link href={`/${username}`} className="flex items-center gap-x-3">
               <p className="text-sm">{username}</p>
               {avatar ? (
                 /* eslint-disable-next-line @next/next/no-img-element */

@@ -1,15 +1,21 @@
-import Articales from "./Articales";
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
 
 import { Metadata } from "next";
+
 export const metadata: Metadata = {
   title: "صفحة الاستكشاف",
   description: "استكشف شغفك",
 };
 
+const Articales = dynamic(() => import("./Articales"), { ssr: false });
+
 export default function ExplorePage() {
   return (
     <div className="flex flex-col gap-3">
-      <Articales />
+      <Suspense fallback={`Articales Loading...`}>
+        <Articales />
+      </Suspense>
     </div>
   );
 }

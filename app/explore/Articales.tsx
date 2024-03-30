@@ -1,7 +1,5 @@
 "use client";
 import React, { useState, useEffect, Suspense } from "react";
-import { CiSearch } from "react-icons/ci";
-import { Input } from "@/components/ui/input";
 import dynamic from "next/dynamic";
 import GetArticle from "@/rendering/get/getArticle";
 import Skeleton_expore from "@/components/Skeleton/Skeleton.expore";

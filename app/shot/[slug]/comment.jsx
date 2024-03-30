@@ -9,6 +9,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { FaRegComments } from "react-icons/fa";
+import { Button } from "@/components/ui/button";
 export default function Comment({ articleId }) {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,7 +29,9 @@ export default function Comment({ articleId }) {
   return (
     <Sheet>
       <SheetTrigger onClick={fetchComments}>
-        <FaRegComments />
+        <Button variant={"secondary"}>
+          <FaRegComments />
+        </Button>
       </SheetTrigger>
       <SheetContent className="z-[99999]">
         <SheetHeader>

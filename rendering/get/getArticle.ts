@@ -1,7 +1,7 @@
 import { WEBSITEAPI } from "@/app/V";
 import axios from "axios";
 
-const GetArticle = async (limit = 5) => {
+const GetArticle = async (limit = 2) => {
   try {
     const response = await axios.get(`${WEBSITEAPI}GetArticle`, {
       params: {

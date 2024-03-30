@@ -85,17 +85,29 @@ const Toggle = ({ IdAuthor }) => {
 
   return (
     <>
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
+      {user && user.username !== IdAuthor ? (
         <>
-          {isFollowing ? (
-            <Button onClick={toggleFollow}>إلغاء المتابعة</Button>
+          {loading ? (
+            <div>Loading...</div>
           ) : (
-            <Button onClick={toggleUnFollow}>متابعة</Button>
+            <>
+              {isFollowing ? (
+                <Button variant={"ghost"} onClick={toggleFollow}>
+                  إلغاء المتابعة
+                </Button>
+              ) : (
+                <Button
+                  variant={"ghost"}
+                  className="text-emerald-500 dark:text-emerald-800"
+                  onClick={toggleUnFollow}
+                >
+                  متابعة
+                </Button>
+              )}
+            </>
           )}
         </>
-      )}
+      ) : null}
     </>
   );
 };
