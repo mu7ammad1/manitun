@@ -1,9 +1,9 @@
 import { WEBSITEAPI } from "@/app/V";
 import axios from "axios";
 
-const GetStory = async (params: any) => {
+const GetStory = async (slug: any) => {
   try {
-    const response = await axios.get(`${WEBSITEAPI}GetArticle/الصور_النموذج_الثاني_193943329`);
+    const response = await axios.get(`${WEBSITEAPI}GetArticle/${slug}`);
     console.log(response.data);
 
     return response.data; // إرجاع البيانات

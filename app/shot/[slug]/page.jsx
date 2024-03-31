@@ -32,7 +32,7 @@ const ArticleShot = ({ params }) => {
   useEffect(() => {
     const fetchArticleData = async () => {
       try {
-        const data = await GetStory({ slug: params.slug });
+        const data = await GetStory(params.slug);
         setArticleData(data.data);
         setContentData(data.data.content);
         setUserData(data.data.author);
@@ -43,9 +43,7 @@ const ArticleShot = ({ params }) => {
     };
 
     fetchArticleData();
-  }, [params.slug]);
-
-  
+  }, [params]);
 
   console.log(articleData);
   console.log(contentData);
