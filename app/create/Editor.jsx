@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useMemo } from "react";
 import axios from "axios";
 import EditorJS from "@editorjs/editorjs";
 import Header from "@editorjs/header";
@@ -14,7 +14,6 @@ import Code from "@editorjs/code";
 import Checklist from "@editorjs/checklist";
 import Quote from "@editorjs/quote";
 
-
 import { toast } from "sonner";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useTheme } from "next-themes";
@@ -24,47 +23,30 @@ import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import { WEBSITE } from "../V";
 
-const cleanId = (inputId) => {
-  // Remove leading and trailing spaces
-  let cleanedId = inputId.trim();
-
-  // Replace spaces with underscore
-  cleanedId = cleanedId.replace(/\s+/g, "_");
-
-  // Remove forward slash
-  cleanedId = cleanedId.replace(/\//g, "");
-
-  // Remove hyphen if it's adjacent to another hyphen
-  cleanedId = cleanedId.replace(/-+/g, "-");
-
-  // Remove hyphen from the beginning
-  cleanedId = cleanedId.replace(/^-/, "");
-
-  // Generate random number
-  const randomNumber = Math.random().toString().replace("0.", "").substr(0, 9);
-
-  // Append random number to the end of the cleanedId
-  cleanedId = `${cleanedId}_${randomNumber}`;
-
-  return cleanedId;
-};
-const convertToBase64 = (file) => {
-  return new Promise((resolve, reject) => {
-    const fileReader = new FileReader();
-    fileReader.onload = () => {
-      resolve(fileReader.result);
-    };
-    fileReader.onerror = reject;
-    fileReader.readAsDataURL(file);
-  });
-};
-
 export default function EditorUi() {
   const user = useCurrentUser();
   const { resolvedTheme } = useTheme();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const editorInstance = useRef(null);
   const [jsonData, setJsonData] = useState(null);
+
+  // تحويل الدالة الحالية إلى دالة memoized
+  const cleanId = useMemo(() => {
+    return (inputId) => {
+      // تنظيف الهوية وإعادة التسمية
+      let cleanedId = inputId.trim();
+      cleanedId = cleanedId.replace(/\s+/g, "_");
+      cleanedId = cleanedId.replace(/\//g, "");
+      cleanedId = cleanedId.replace(/-+/g, "-");
+      cleanedId = cleanedId.replace(/^-/, "");
+      const randomNumber = Math.random()
+        .toString()
+        .replace("0.", "")
+        .substr(0, 9);
+      cleanedId = `${cleanedId}_${randomNumber}`;
+      return cleanedId;
+    };
+  }, []); // لا يعتمد على الإعدادات الخاصة بالمكون
 
   const [formData, setFormData] = useState({
     authorId: user?.username,
@@ -74,7 +56,7 @@ export default function EditorUi() {
     tags: "",
     title: "",
     draft: true,
-    content: jsonData ? jsonData.blocks : [],
+    content: useMemo(() => (jsonData ? jsonData.blocks : []), [jsonData]), // استخدام useMemo هنا
   });
 
   const handleChange = (event) => {
@@ -323,8 +305,6 @@ export default function EditorUi() {
           },
         },
       },
-
-      // يمكنك إضافة المزيد من الخيارات هنا
     });
 
     return () => {

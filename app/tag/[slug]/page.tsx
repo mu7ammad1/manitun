@@ -27,6 +27,9 @@ const ViewArticle = dynamic(() => import("@/components/View/ViewArticle"), {
   ssr: true,
 });
 
+const Forehead = dynamic(() => import("@/app/shot/[slug]/forehead"), {
+  ssr: false,
+});
 export default function Articles({ params }: { params: { slug: string } }) {
   const [articleData, setArticleData] = useState<ApiResponse | null>(null);
 
@@ -48,11 +51,17 @@ export default function Articles({ params }: { params: { slug: string } }) {
   return (
     <div>
       <div className="py-5 bg-[#ffebb2]/80 flex flex-col justify-center">
+        <Suspense fallback={`Forehead....`}>
+          <Forehead text={decodeURIComponent(params.slug)} />
+        </Suspense>
         <h1 className="text-6xl text-center font-semibold my-12 dark:text-[#007F73]/100 uppercase">
-          {decodeURIComponent(params.slug)}
+          {}
         </h1>
         <div className="flex justify-center w-full pb-10">
-          <Button variant={"outline"} className="w-4/12 border-none shadow-none">
+          <Button
+            variant={"outline"}
+            className="w-4/12 border-none shadow-none"
+          >
             Follow
           </Button>
         </div>

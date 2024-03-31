@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useEffect, useState, Suspense } from "react";
+import React, { useRef, useEffect, useState, Suspense, useMemo } from "react";
 
 import EditorJS from "@editorjs/editorjs";
 import Header from "@editorjs/header";
@@ -20,6 +20,7 @@ import GetStory from "@/rendering/get/getStory";
 import dynamic from "next/dynamic";
 
 const HeetProfile = dynamic(() => import("./HeetProfile"), { ssr: false });
+const Forehead = dynamic(() => import("./forehead"), { ssr: true });
 
 const ArticleShot = ({ params }) => {
   const editorInstance = useRef(null);
@@ -35,7 +36,7 @@ const ArticleShot = ({ params }) => {
         setContentData(data.article.content);
         setArticleData(data.article);
         setUserData(data.user);
-        setLoading(false); // Set loading to false when data is available
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching article data:", error);
       }
@@ -43,11 +44,27 @@ const ArticleShot = ({ params }) => {
 
     fetchArticleData();
   }, [params.slug]);
+
+  const articleTitle = useMemo(
+    () => (articleData ? articleData.title : ""),
+    [articleData]
+  );
+
+  const heetProfileProps = useMemo(
+    () => ({
+      Author: articleData ? articleData.authorId : "",
+      name: articleData ? articleData.author.name : "",
+      date: articleData ? articleData.createdAt : "",
+      slug: params.slug,
+    }),
+    [articleData, params.slug]
+  );
+
   // Editor.js
   useEffect(() => {
     if (!loading && contentData) {
       editorInstance.current = new EditorJS({
-        holder: "editorjs",
+        holder: "ViewEditorJS",
         readOnly: true,
         tools: {
           header: {
@@ -65,7 +82,6 @@ const ArticleShot = ({ params }) => {
           list: { class: List, inlineToolbar: true, toolbox: true },
           paragraph: { class: Paragraph, inlineToolbar: true },
         },
-
         onReady: () => {
           console.log("Editor.js is ready to work!");
         },
@@ -83,25 +99,20 @@ const ArticleShot = ({ params }) => {
       };
     }
   }, [loading, contentData]);
+
   return (
     <main className="flex justify-center">
       {loading ? (
         <span>Loading...</span>
       ) : (
         <main className="max-w-4xl w-full px-4 my-3">
-          <h1 className={`text-right text-2xl font-bold`}>
-            {articleData.title}
-          </h1>
+          <h1 className={`text-right text-2xl font-bold`}>{articleTitle}</h1>
+
           <Suspense fallback={<span>HeetProfile.....</span>}>
-            <HeetProfile
-              Author={articleData.authorId}
-              name={articleData.author.name}
-              date={articleData.createdAt}
-              slug={params.slug}
-            />
+            <HeetProfile {...heetProfileProps} />
           </Suspense>
           <div
-            id="editorjs"
+            id={`ViewEditorJS`}
             className="dark:bg-stone-950 *:dark:text-white w-full"
           ></div>
         </main>

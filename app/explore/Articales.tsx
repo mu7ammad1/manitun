@@ -3,6 +3,7 @@ import React, { useState, useEffect, Suspense } from "react";
 import dynamic from "next/dynamic";
 import GetArticle from "@/rendering/get/getArticle";
 import Skeleton_expore from "@/components/Skeleton/Skeleton.expore";
+import Forehead from "../shot/[slug]/forehead";
 
 interface ArticleData {
   id: string;
@@ -35,13 +36,10 @@ export default function Articales() {
   console.log(articleData);
 
   return (
-    <div>
-      <div className="py-24 bg-[#ffebb2]/80">
-        <h1 className="text-6xl text-center font-semibold my-12 dark:text-[#007F73]/100">
-          استكشف شغفك
-        </h1>
-      </div>
-
+    <main>
+      <Suspense fallback={`Forehead....`}>
+        <Forehead text={`استكشف شغفك`} />
+      </Suspense>
       <Suspense fallback={<Skeleton_expore />}>
         {articleData &&
           articleData.map(
@@ -62,6 +60,6 @@ export default function Articales() {
               )
           )}
       </Suspense>
-    </div>
+    </main>
   );
 }

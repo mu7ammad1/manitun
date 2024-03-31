@@ -12,10 +12,10 @@ const Articales = dynamic(() => import("./Articales"), { ssr: false });
 
 export default function ExplorePage() {
   return (
-    <div className="flex flex-col gap-3">
+    <article className="flex flex-col gap-3">
       <Suspense fallback={`Articales Loading...`}>
         <Articales />
       </Suspense>
-    </div>
+    </article>
   );
 }
