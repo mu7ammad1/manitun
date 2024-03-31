@@ -10,6 +10,7 @@ const imageLoader = ({ src, width, quality }: any) => {
 const ShareBTN = dynamic(() => import("./ShareBTN"), { ssr: false });
 const Follow = dynamic(() => import("./follow"), { ssr: false });
 const Comment = dynamic(() => import("./comment"), { ssr: false });
+const Like = dynamic(() => import("./like"), { ssr: false });
 
 export default function HeetProfile({ Author, name, date, slug }: any) {
   const lazyRoot = React.useRef(null);
@@ -22,6 +23,9 @@ export default function HeetProfile({ Author, name, date, slug }: any) {
         </Suspense>
         <Suspense fallback={<span>Comment.....</span>}>
           <Comment articleId={slug} />
+        </Suspense>
+        <Suspense fallback={<span>Comment.....</span>}>
+          <Like articleIda={slug} />
         </Suspense>
       </div>
       <div ref={lazyRoot} className="flex items-center gap-3">

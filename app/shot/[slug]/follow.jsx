@@ -11,9 +11,7 @@ const Toggle = ({ IdAuthor }) => {
   const [loading, setLoading] = useState(true);
   const user = useCurrentUser();
   const [isFollowing, setIsFollowing] = useState(false);
-  const [data, setData] = useState(null); // Declare data state
 
-  
   useEffect(() => {
     const fetchArticleData = async () => {
       try {
@@ -49,6 +47,7 @@ const Toggle = ({ IdAuthor }) => {
 
       if (response.status === 200) {
         setIsFollowing(false);
+
         toast("تم إلغاء المتابعة بنجاح", {
           description: Date(),
           duration: 5000,
@@ -74,16 +73,6 @@ const Toggle = ({ IdAuthor }) => {
 
       if (response.status === 200) {
         setIsFollowing(true);
-        setData((prevUserData) => ({
-          ...prevUserData,
-          user: {
-            ...prevUserData.user,
-            following: [
-              ...prevUserData.user.following,
-              { followerUsername: user?.username },
-            ],
-          },
-        }));
         toast("تم إرسال المتابعة بنجاح", {
           description: Date(),
           duration: 5000,

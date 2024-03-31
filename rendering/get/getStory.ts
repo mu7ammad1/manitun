@@ -3,7 +3,7 @@ import axios from "axios";
 
 const GetStory = async (params: any) => {
   try {
-    const response = await axios.get(`${WEBSITEAPI}article/${params.slug}`);
+    const response = await axios.get(`${WEBSITEAPI}GetArticle/الصور_النموذج_الثاني_193943329`);
     console.log(response.data);
 
     return response.data; // إرجاع البيانات

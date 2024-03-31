@@ -1,9 +1,9 @@
 import { WEBSITEAPI } from "@/app/V";
 import axios from "axios";
 
-const GetComment = async (articleId: any) => {
+const GetComments = async (articleId: any) => {
   try {
-    const response = await axios.get(`${WEBSITEAPI}GetArticle/${articleId}`);
+    const response = await axios.get(`${WEBSITEAPI}GetComment/${articleId}`);
     console.log(response.data);
 
     return response.data;
@@ -13,5 +13,4 @@ const GetComment = async (articleId: any) => {
   }
 };
 
-
-export default GetComment;
+export default GetComments;

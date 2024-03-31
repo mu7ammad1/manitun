@@ -12,24 +12,20 @@ export const GET = async (request, { params }) => {
         id: slug,
       },
       select: {
-        Comments: {
+        id: true,
+        author: {
           select: {
-            id: true,
-            content: true,
-            createdAt: true,
-            author: {
-              select: {
-                id: true,
-                name: true,
-                username: true,
-              },
-            },
+            name: true,
+            username: true,
           },
         },
+        title:true,
+        createdAt: true,
+        content: true,
+        likes: true,
       },
     });
 
-    // التحقق مما إذا كان المقال موجودًا
     if (!article) {
       return NextResponse.json(
         { message: "Article NOT FOUND" },
@@ -37,10 +33,8 @@ export const GET = async (request, { params }) => {
       );
     }
 
-    // إرجاع التعليقات المرتبطة بالمقال
     return NextResponse.json({
-      articleId: article.id,
-      comments: article.Comments,
+      data: article,
     });
   } catch (error) {
     return NextResponse.json(

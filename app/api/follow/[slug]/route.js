@@ -11,7 +11,6 @@ export const GET = async (request, { params }) => {
         username: slug,
       },
       select: {
-        username: true,
         followers: true, // يتم استرجاع بيانات المتابعين للمستخدم
         following: true,
       },

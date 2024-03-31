@@ -8,6 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Share1Icon } from "@radix-ui/react-icons";
 import { CiShare2 } from "react-icons/ci";
 import {
   FaCopy,
@@ -22,8 +23,8 @@ export default function ShareBTN() {
   return (
     <Dialog>
       <DialogTrigger>
-        <Button variant={"secondary"}>
-          <CiShare2 />
+        <Button variant={"outline"} className="rounded-full">
+          <Share1Icon className="w-5 h-5" />
         </Button>
       </DialogTrigger>
       <DialogContent>
