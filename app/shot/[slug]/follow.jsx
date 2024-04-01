@@ -15,7 +15,9 @@ const Toggle = ({ IdAuthor }) => {
   useEffect(() => {
     const fetchArticleData = async () => {
       try {
-        const response = await axios.get(`${WEBSITEAPI}follow/${IdAuthor}`);
+        const response = await axios.get(
+          `https://manitun.vercel.app/api/follow/${IdAuthor}`
+        );
         const data = response.data;
         console.log(data);
 
@@ -38,10 +40,10 @@ const Toggle = ({ IdAuthor }) => {
 
   const toggleFollow = async () => {
     try {
-      const response = await axios.delete(`${WEBSITEAPI}follow`, {
+      const response = await axios.delete(`https://manitun.vercel.app/api/follow`, {
         data: {
-          followerUsername: `muhammadosama`,
-          followingUsername: `mu7ammad`,
+          followerUsername: user?.username,
+          followingUsername: IdAuthor,
         },
       });
 
@@ -57,18 +59,6 @@ const Toggle = ({ IdAuthor }) => {
         });
         console.error("فشلت عملية إلغاء المتابعة");
       }
-      if (response.status === 500) {
-        setIsFollowing(false);
-
-        toast("نفس  الخطأ فشلت عملية إلغاء المتابعة", {
-          duration: 5000,
-        });
-      } else {
-        toast("فشلت عملية إلغاء المتابعة", {
-          duration: 5000,
-        });
-        console.error("فشلت عملية إلغاء المتابعة");
-      }
     } catch (error) {
       console.error("حدث خطأ أثناء إلغاء المتابعة:", error);
     }
@@ -76,7 +66,7 @@ const Toggle = ({ IdAuthor }) => {
 
   const toggleUnFollow = async () => {
     try {
-      const response = await axios.post(`${WEBSITEAPI}follow`, {
+      const response = await axios.post(`https://manitun.vercel.app/api/follow`, {
         followerUsername: user?.username,
         followingUsername: IdAuthor,
       });
@@ -84,7 +74,6 @@ const Toggle = ({ IdAuthor }) => {
       if (response.status === 200) {
         setIsFollowing(true);
         toast("تم إرسال المتابعة بنجاح", {
-          description: Date(),
           duration: 5000,
         });
       } else {

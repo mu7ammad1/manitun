@@ -29,28 +29,37 @@ export const POST = async (request) => {
   }
 };
 
+
 export const DELETE = async (request) => {
   try {
-    // استخراج معرف العنصر المراد حذفه من الجسم
-    const { followingUsername, followerUsername } = await request.json();
+    // Extract follower and following usernames from the request body
+    const { followerUsername, followingUsername } = await request.json();
 
-    // حذف العنصر باستخدام Prisma Client
-    const deletedExample = await prisma.follow.delete({
+    // Find and delete the follow relationship based on follower and following usernames
+    const deletedFollow = await db.follow.deleteMany({
       where: {
         followerUsername,
         followingUsername,
       },
     });
 
-    // إرجاع رسالة تأكيد مع البيانات المحذوفة
+    // Check if any follow relationship was deleted
+    if (deletedFollow.count === 0) {
+      // If no follow relationship was deleted, return a not found response
+      return NextResponse.json(
+        { message: "Follow relationship not found" },
+        { status: 404 }
+      );
+    }
+
+    // Return a success message if the follow relationship was deleted successfully
     return NextResponse.json({
-      message: "Follow deleted successfully",
-      data: deletedExample,
+      message: "Follow relationship deleted successfully",
     });
   } catch (error) {
-    // إرجاع رسالة خطأ مفصلة في حالة حدوث خطأ
+    // Return an error response if an error occurs during the process
     return NextResponse.json(
-      { message: "Failed to delete follow", error },
+      { message: "Failed to delete follow relationship", error },
       { status: 500 }
     );
   }
