@@ -40,8 +40,8 @@ const Toggle = ({ IdAuthor }) => {
     try {
       const response = await axios.delete(`${WEBSITEAPI}follow`, {
         data: {
-          followerUsername: user?.username,
-          followingUsername: IdAuthor,
+          followerUsername: `muhammadosama`,
+          followingUsername: `mu7ammad`,
         },
       });
 
@@ -49,12 +49,22 @@ const Toggle = ({ IdAuthor }) => {
         setIsFollowing(false);
 
         toast("تم إلغاء المتابعة بنجاح", {
-          description: Date(),
           duration: 5000,
         });
       } else {
         toast("فشلت عملية إلغاء المتابعة", {
-          description: Date(),
+          duration: 5000,
+        });
+        console.error("فشلت عملية إلغاء المتابعة");
+      }
+      if (response.status === 500) {
+        setIsFollowing(false);
+
+        toast("نفس  الخطأ فشلت عملية إلغاء المتابعة", {
+          duration: 5000,
+        });
+      } else {
+        toast("فشلت عملية إلغاء المتابعة", {
           duration: 5000,
         });
         console.error("فشلت عملية إلغاء المتابعة");
