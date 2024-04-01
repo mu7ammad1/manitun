@@ -1,4 +1,4 @@
-// url : http://localhost:3000/api/GetArticle/[getcomment]
+// url : http://localhost:3000/api/GetComment/[getcomment]
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 

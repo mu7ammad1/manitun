@@ -87,7 +87,7 @@ export const GET = async (request, { params }) => {
       where: {
         articleId: slug,
       },
-      include: {
+      select: {
         user: {
           select: {
             username: true,
@@ -104,7 +104,7 @@ export const GET = async (request, { params }) => {
 
     return NextResponse.json({
       message: "تم العثور على إعجاب بالمقال",
-      likedBy: like.user, // بيانات المستخدم الذي قام بالإعجاب
+      likedBy: like, // بيانات المستخدم الذي قام بالإعجاب
     });
   } catch (error) {
     return NextResponse.json(

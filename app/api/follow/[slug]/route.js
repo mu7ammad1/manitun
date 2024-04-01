@@ -11,8 +11,16 @@ export const GET = async (request, { params }) => {
         username: slug,
       },
       select: {
-        followers: true, // يتم استرجاع بيانات المتابعين للمستخدم
-        following: true,
+        followers: {
+          select: {
+            followerUsername: true,
+          },
+        }, // يتم استرجاع بيانات المتابعين للمستخدم
+        following: {
+          select: {
+            followingUsername: true,
+          },
+        },
       },
     });
     if (!user) {
@@ -27,3 +35,38 @@ export const GET = async (request, { params }) => {
     );
   }
 };
+
+// export const GET = async (request, { params }) => {
+//   try {
+//     const { slug } = params;
+
+//     const like = await db.like.findFirst({
+//       where: {
+//         articleId: slug,
+//       },
+//       select: {
+//         user: {
+//           select: {
+//             username: true,
+//           },
+//         }, // يتم تضمين بيانات المستخدم المعجب
+//       },
+//     });
+
+//     if (!like) {
+//       return NextResponse.json({
+//         message: "لا يوجد إعجاب بالمقال",
+//       });
+//     }
+
+//     return NextResponse.json({
+//       message: "تم العثور على إعجاب بالمقال",
+//       likedBy: like, // بيانات المستخدم الذي قام بالإعجاب
+//     });
+//   } catch (error) {
+//     return NextResponse.json(
+//       { message: "فشل في استعلام المستخدم الذي قام بالإعجاب بالمقال", error },
+//       { status: 500 }
+//     );
+//   }
+// };
