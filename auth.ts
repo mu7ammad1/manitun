@@ -24,7 +24,7 @@ export const {
     async linkAccount({ user }) {
       await db.user.update({
         where: { id: user.id },
-        data: { emailVerified: new Date()},
+        data: { emailVerified: new Date() },
       });
     },
   },
@@ -91,7 +91,7 @@ export const {
 
       token.isOAuth = !!existingAccount;
       token.name = existingUser.name;
-      token.username = existingUser.username; 
+      token.username = existingUser.username;
       token.bio = existingUser.bio;
       token.email = existingUser.email;
       token.role = existingUser.role;

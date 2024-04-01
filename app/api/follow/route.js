@@ -30,35 +30,28 @@ export const POST = async (request) => {
 };
 
 export const DELETE = async (request) => {
-  if (request.method === "DELETE") {
-    try {
-      // استخراج معرف العنصر المراد حذفه من الجسم
-      const { followingUsername, followerUsername } = await request.json();
+  try {
+    // استخراج معرف العنصر المراد حذفه من الجسم
+    const { followingUsername, followerUsername } = await request.json();
 
-      // حذف العنصر باستخدام Prisma Client
-      const deletedExample = await prisma.follow.delete({
-        where: {
-          followerUsername,
-          followingUsername,
-        },
-      });
+    // حذف العنصر باستخدام Prisma Client
+    const deletedExample = await prisma.follow.delete({
+      where: {
+        followerUsername,
+        followingUsername,
+      },
+    });
 
-      // إرجاع رسالة تأكيد مع البيانات المحذوفة
-      return NextResponse.json({
-        message: "Follow deleted successfully",
-        data: deletedExample,
-      });
-    } catch (error) {
-      // إرجاع رسالة خطأ مفصلة في حالة حدوث خطأ
-      return NextResponse.json(
-        { message: "Failed to delete follow", error },
-        { status: 500 }
-      );
-    }
-  } else {
+    // إرجاع رسالة تأكيد مع البيانات المحذوفة
+    return NextResponse.json({
+      message: "Follow deleted successfully",
+      data: deletedExample,
+    });
+  } catch (error) {
+    // إرجاع رسالة خطأ مفصلة في حالة حدوث خطأ
     return NextResponse.json(
-      { message: "Method Not Allowed" },
-      { status: 405 }
+      { message: "Failed to delete follow", error },
+      { status: 500 }
     );
   }
 };
