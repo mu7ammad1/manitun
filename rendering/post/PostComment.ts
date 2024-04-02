@@ -1,3 +1,4 @@
+import { WEBSITEAPI } from "@/app/V";
 import axios from "axios";
 
 export const handleSubmit = async ({
@@ -9,10 +10,9 @@ export const handleSubmit = async ({
   setAuthorUsername,
   fetchComments,
 }: any) => {
-  
   try {
     setSending(true);
-    await axios.post(`http://localhost:3000/api/GetComment/${articleId}`, {
+    await axios.post(`${WEBSITEAPI}/GetComment/${articleId}`, {
       content,
       authorUsername,
     });

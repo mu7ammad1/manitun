@@ -1,56 +1,65 @@
+import { WEBSITEAPI } from "@/app/V";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import axios from "axios";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
-interface Article {
-  id: string;
-  title: string;
-  description: string;
-  tags: string[];
-  draft: boolean;
-  createdAt: string;
-  authorId: string;
-  image?: string;
-  author: {
-    id: string;
-    image: string;
-  };
-}
-
-interface data {
-  tag: string;
-}
 export default function ViewCarousel() {
+  const [tags, setTags] = useState<string[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const user = useCurrentUser();
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(
+          `${WEBSITEAPI}TagFollow/${user?.username}`
+        );
+        // استخراج العلامات فقط من البيانات المستقبلة
+        const tagsData = response.data.tagFollow.map((item: any) => item.tag);
+        setTags(tagsData);
+      } catch (error) {
+        setError("Failed to fetch tags data.");
+        console.error("Failed to fetch tags data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (user?.username) {
+      fetchTags();
+    }
+  }, [user?.username]);
+
   return (
-    <Carousel className="">
-      <CarouselContent>
-        <CarouselItem></CarouselItem>
-        <CarouselItem>2222222222222222222</CarouselItem>
-        <CarouselItem>3333333333333333333</CarouselItem>
+    <Carousel>
+      <CarouselContent className="space-x-2 ml-3">
+        {loading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p>Error: {error}</p>
+        ) : tags && tags.length > 0 ? (
+          tags.map((tag: string, index: number) => (
+            <CarouselItem
+              key={index}
+              className="basis-auto bg-secondary pl-0 p-1 px-4 my-2 rounded-full bg-[#ffebb2] dark:bg-[#ffebb2]/80 dark:text-black uppercase"
+            >
+              <Link href={`/explore/${decodeURIComponent(tag)}`}>
+                {decodeURIComponent(tag)}
+              </Link>
+            </CarouselItem>
+          ))
+        ) : (
+          <p>No tags found.</p>
+        )}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
     </Carousel>
   );
 }
-
-// <CarouselItem key={index} className="basis-auto -ml-0 pl-0 ">
-//   <Link href={`/tag/${tag === "" ? "explore" : tag}`}>
-//     <Button
-//       variant={"outline"}
-//       className="border-0 gap-2 bg-stone-200 hover:bg-stone-200 px-5 text-lg rounded-full"
-//     >
-//       {tag === "palestine"
-//         ? `🍉 ${tag}`
-//         : tag === "ramadam"
-//         ? `🌙 ${tag}`
-//         : tag === ""
-//         ? "🦉 Explore"
-//         : tag}
-//     </Button>
-//   </Link>
-// </CarouselItem>

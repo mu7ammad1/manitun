@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import GetArticle from "@/rendering/get/getArticle";
 import Skeleton_expore from "@/components/Skeleton/Skeleton.expore";
 import Forehead from "../shot/[slug]/forehead";
+import ViewCarousel from "@/components/View/ViewCarousel";
 
 interface ArticleData {
   id: string;
@@ -39,6 +40,9 @@ export default function Articales() {
     <main>
       <Suspense fallback={`Forehead....`}>
         <Forehead text={`استكشف شغفك`} />
+      </Suspense>
+      <Suspense fallback={`ViewCarousel...`}>
+        <ViewCarousel />
       </Suspense>
       <Suspense fallback={<Skeleton_expore />}>
         {articleData &&

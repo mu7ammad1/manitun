@@ -31,6 +31,8 @@ export default function ViewArticle({
             <img
               src={image}
               alt={id}
+              width={100}
+              height={100}
               className="w-full max-h-28 rounded-md object-cover object-center group-hover:scale-105 scale-100 group-hover:ease-in duration-300"
             />
           </CardContent>
@@ -38,14 +40,14 @@ export default function ViewArticle({
         <CardHeader
           className={`basis-3/4 max-sm:basis-3/4 p-0 text-wrap *:text-right`}
         >
-          <CardTitle className="text-xs" lang="ar">
+          <CardTitle className="text-xs max-sm:text-[8px]" lang="ar">
             {formatDistanceToNow(new Date(created), {
               addSuffix: true,
               locale: arEG,
             })}
           </CardTitle>
           <CardTitle
-            className="text-base tracking-wide leading-relaxed line-clamp-2 max-md:line-clamp-1 max-sm:line-clamp-2"
+            className="text-base max-sm:text-sm max-sm:font-medium tracking-wide leading-relaxed line-clamp-2 max-md:line-clamp-1 max-sm:line-clamp-2"
             lang="ar"
           >
             {title}
