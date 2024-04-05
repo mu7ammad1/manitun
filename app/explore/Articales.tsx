@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import GetArticle from "@/rendering/get/getArticle";
 import Skeleton_expore from "@/components/Skeleton/Skeleton.expore";
 import Forehead from "../shot/[slug]/forehead";
-import ViewCarousel from "@/components/View/ViewCarousel";
 
 interface ArticleData {
   id: string;
@@ -20,9 +19,18 @@ interface ArticleData {
   };
 }
 
-const ViewArticle = dynamic(() => import("@/components/View/ViewArticle"), {
-  ssr: true,
-});
+const ViewArticle = dynamic(
+  async () => await import("@/components/View/ViewArticle"),
+  {
+    ssr: true,
+  }
+);
+const ViewCarousel = dynamic(
+  async () => await import("@/components/View/ViewCarousel"),
+  {
+    ssr: false,
+  }
+);
 
 export default function Articales() {
   const [articleData, setArticleData] = useState<ArticleData[] | null>(null);
@@ -34,7 +42,6 @@ export default function Articales() {
     };
     fetchArticleData();
   }, []);
-  console.log(articleData);
 
   return (
     <main>

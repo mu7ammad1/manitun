@@ -8,6 +8,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { FiLoader } from "react-icons/fi";
 
 export default function ViewCarousel() {
   const [tags, setTags] = useState<string[] | null>(null);
@@ -42,7 +43,9 @@ export default function ViewCarousel() {
     <Carousel>
       <CarouselContent className="space-x-2 ml-3">
         {loading ? (
-          <p>Loading...</p>
+          <span className="animate-spin">
+            <FiLoader />
+          </span>
         ) : error ? (
           <p>Error: {error}</p>
         ) : tags && tags.length > 0 ? (
@@ -56,9 +59,7 @@ export default function ViewCarousel() {
               </Link>
             </CarouselItem>
           ))
-        ) : (
-          <p>No tags found.</p>
-        )}
+        ) : null}
       </CarouselContent>
     </Carousel>
   );

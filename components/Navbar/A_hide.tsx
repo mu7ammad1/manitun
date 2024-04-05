@@ -19,7 +19,7 @@ const CreateBTN = () => {
           <p className="text-xl">
             <CiEdit />
           </p>
-          <Link href={`/create`} className="max-sm:hidden">
+          <Link href={`/create`} target="_blank" className="max-sm:hidden">
             Create
           </Link>
         </Button>

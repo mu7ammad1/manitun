@@ -25,7 +25,8 @@ export const metadata: Metadata = {
   title: "manitun",
   description:
     "مرحبًا بكم في منصة مانيتون، الوجهة المثالية للكتّاب والمبدعين، حيث يمكنكم نشر أفكاركم وإبداعاتكم بكل سهولة وتواصل مع جمهوركم بطريقة مميزة",
-  keywords: "manitun,maniyn,kateeb,kotaab",
+  keywords:
+    "manitun,maniyn,kateeb,kotaab,medium,mudwan.com,mudwan,المقال,اخبار,",
 };
 
 export default async function RootLayout({
@@ -44,7 +45,7 @@ export default async function RootLayout({
         />
         <meta name="google-adsense-account" content="ca-pub-9565235633569563" />
       </head>
-      <body className={cn(font.className)}>
+      <body className={cn(font.className, `bg-secondary`)}>
         <SessionProvider session={session}>
           <ThemeProvider attribute="class" defaultTheme="system">
             <Navbar />

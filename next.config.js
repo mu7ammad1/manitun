@@ -15,9 +15,9 @@ module.exports = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "images.pexels.com",
+        hostname: "lh3.googleusercontent.com",
         port: "",
-        pathname: "/photos/*/**",
+        pathname: "/a/**",
       },
     ],
   },

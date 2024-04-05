@@ -77,5 +77,9 @@ body,
 }
 ::selection {
   color: #ffebb2 !important;
-  background: #007F73 !important;
+  background: #007f73 !important;
+}
+
+#ViewEditorJS {
+  background: #00000000 !important;
 }

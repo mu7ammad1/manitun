@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -22,6 +22,25 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/api/profile/route.js", "app/profile/page.jsx", "app/[profile]/page.tsx", "app/story/[slug]/page.tsx", "app/explore/page.tsx", "app/create/page.jsx", "app/tag/[slug]/page.tsx", "app/tag/[slug]/taag.jsx", "app/sitemap.js", "app/api/user/route.js", "app/create/Editor.jsx", "app/story/[slug]/storys.jsx", "app/api/GetArticle/[slug]/route.js", "app/shot/[slug]/comment.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "app/api/profile/route.js",
+    "app/profile/page.jsx",
+    "app/[profile]/page.tsx",
+    "app/story/[slug]/page.tsx",
+    "app/explore/page.tsx",
+    "app/create/page.jsx",
+    "app/tag/[slug]/page.tsx",
+    "app/tag/[slug]/taag.jsx",
+    "app/sitemap.js",
+    "app/api/user/route.js",
+    "app/create/Editor.jsx",
+    "app/story/[slug]/storys.jsx",
+    "app/api/GetArticle/[slug]/route.js",
+    "app/shot/[slug]/comment.tsx"
+  ],
   "exclude": ["node_modules"]
 }

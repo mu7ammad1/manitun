@@ -8,6 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { Share1Icon } from "@radix-ui/react-icons";
 import { CiShare2 } from "react-icons/ci";
 import {
@@ -23,7 +24,7 @@ export default function ShareBTN() {
   return (
     <Dialog>
       <DialogTrigger>
-        <Button variant={"outline"} className="rounded-full">
+        <Button variant={"outline"} className="rounded-full bg-black/0 shadow-none border-none">
           <Share1Icon className="w-5 h-5" />
         </Button>
       </DialogTrigger>
@@ -42,7 +43,14 @@ export default function ShareBTN() {
               <FaCopy />
             </Button>
             <DialogFooter className="bg-secondary flex justify-center items-center w-full rounded-md">
-              <p className="px-1">{window.location.href.substring(0, 45)}...</p>
+              {/* <p className="px-1">{window.location.href.substring(0, 45)}...</p> */}
+              <Input
+                readOnly
+                type="email"
+                placeholder="Email"
+                defaultValue={window.location.href}
+                className="px-1"
+              />
             </DialogFooter>
           </DialogDescription>
           <DialogDescription className="grid grid-cols-3 max-md:grid-cols-2 pt-5 gap-2">

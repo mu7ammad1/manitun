@@ -6,6 +6,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import axios from "axios";
 import { toast } from "sonner";
 import { WEBSITEAPI } from "@/app/V";
+import { FiLoader } from "react-icons/fi";
 
 const Toggle = ({ IdAuthor }) => {
   const [loading, setLoading] = useState(true);
@@ -15,9 +16,7 @@ const Toggle = ({ IdAuthor }) => {
   useEffect(() => {
     const fetchArticleData = async () => {
       try {
-        const response = await axios.get(
-          `https://manitun.vercel.app/api/follow/${IdAuthor}`
-        );
+        const response = await axios.get(`${WEBSITEAPI}follow/${IdAuthor}`);
         const data = response.data;
         console.log(data);
 
@@ -40,7 +39,7 @@ const Toggle = ({ IdAuthor }) => {
 
   const toggleFollow = async () => {
     try {
-      const response = await axios.delete(`https://manitun.vercel.app/api/follow`, {
+      const response = await axios.delete(`${WEBSITEAPI}follow`, {
         data: {
           followerUsername: user?.username,
           followingUsername: IdAuthor,
@@ -66,7 +65,7 @@ const Toggle = ({ IdAuthor }) => {
 
   const toggleUnFollow = async () => {
     try {
-      const response = await axios.post(`https://manitun.vercel.app/api/follow`, {
+      const response = await axios.post(`${WEBSITEAPI}follow`, {
         followerUsername: user?.username,
         followingUsername: IdAuthor,
       });
@@ -89,17 +88,23 @@ const Toggle = ({ IdAuthor }) => {
       {user && user.username !== IdAuthor ? (
         <>
           {loading ? (
-            <div>Loading...</div>
+            <span className="animate-spin">
+              <FiLoader />
+            </span>
           ) : (
             <>
               {isFollowing ? (
-                <Button variant={"ghost"} onClick={toggleFollow}>
+                <Button
+                  variant={"ghost"}
+                  className={`bg-black/0 border-none`}
+                  onClick={toggleFollow}
+                >
                   إلغاء المتابعة
                 </Button>
               ) : (
                 <Button
                   variant={"ghost"}
-                  className="text-emerald-500 dark:text-emerald-800"
+                  className="text-emerald-500 dark:text-emerald-800 bg-black/0 border-none"
                   onClick={toggleUnFollow}
                 >
                   متابعة

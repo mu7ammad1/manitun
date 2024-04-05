@@ -4,9 +4,6 @@ import dynamic from "next/dynamic";
 import { formatDistanceToNow } from "date-fns";
 import { arEG } from "date-fns/locale";
 
-const imageLoader = ({ src, width, quality }: any) => {
-  return `https://images.pexels.com/${src}?w=${width}&q=${quality || 100}`;
-};
 const ShareBTN = dynamic(() => import("./ShareBTN"), { ssr: false });
 const Follow = dynamic(() => import("./follow"), { ssr: false });
 const Comment = dynamic(() => import("./comment"), { ssr: false });
@@ -16,7 +13,7 @@ export default function HeetProfile({ Author, name, date, slug }: any) {
   const lazyRoot = React.useRef(null);
 
   return (
-    <div className="flex justify-between items-center my-5">
+    <div className="flex justify-between items-center my-7">
       <div className="flex justify-center items-center gap-2">
         <Suspense fallback={<span>ShareBTN.....</span>}>
           <ShareBTN />
@@ -41,10 +38,11 @@ export default function HeetProfile({ Author, name, date, slug }: any) {
             })}
           </p>
         </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <Image
+          loading="lazy"
           lazyRoot={lazyRoot}
-          loader={imageLoader}
-          src="/photos/7945944/pexels-photo-7945944.jpeg"
+          src={`https://lh3.googleusercontent.com/a/ACg8ocLdQXFN0ps1Sv1Udct4qS2K38qrWBx3JXRkpuGr0ueO=s96-c`}
           width={32}
           height={32}
           alt="Picture of the author"

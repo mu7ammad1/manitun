@@ -10,9 +10,11 @@ import LinkTool from "@editorjs/link";
 import ImageTool from "@editorjs/image";
 import Embed from "@editorjs/embed";
 import Delimiter from "@editorjs/delimiter";
-import Code from "@editorjs/code";
+import CodeTool from "@editorjs/code";
 import Checklist from "@editorjs/checklist";
 import Quote from "@editorjs/quote";
+import Underline from "@editorjs/underline";
+import "./editor.css";
 
 import { toast } from "sonner";
 import { useCurrentUser } from "@/hooks/use-current-user";
@@ -33,20 +35,12 @@ export default function EditorUi() {
   // تحويل الدالة الحالية إلى دالة memoized
   const cleanId = useMemo(() => {
     return (inputId) => {
-      // تنظيف الهوية وإعادة التسمية
-      let cleanedId = inputId.trim();
-      cleanedId = cleanedId.replace(/\s+/g, "_");
-      cleanedId = cleanedId.replace(/\//g, "");
-      cleanedId = cleanedId.replace(/-+/g, "-");
-      cleanedId = cleanedId.replace(/^-/, "");
-      const randomNumber = Math.random()
-        .toString()
-        .replace("0.", "")
-        .substr(0, 9);
-      cleanedId = `${cleanedId}_${randomNumber}`;
+      // تنظيف الهوية وتحويلها إلى معرف URL
+      let cleanedId = inputId.trim().toLowerCase(); // تحويل النص إلى أحرف صغيرة
+      cleanedId = cleanedId.replace(/[^a-z0-9\u0600-\u06FF]/g, ""); // إزالة أي علامات أو حروف غير بشرية أو فراغات
       return cleanedId;
     };
-  }, []); // لا يعتمد على الإعدادات الخاصة بالمكون
+  }, []);
 
   const [formData, setFormData] = useState({
     authorId: user?.username,
@@ -149,6 +143,9 @@ export default function EditorUi() {
     editorInstance.current = new EditorJS({
       holder: "editorjs",
       tools: {
+        underline: {
+          class: Underline,
+        },
         header: {
           class: Header,
           config: {
@@ -158,35 +155,22 @@ export default function EditorUi() {
           },
           shortcut: "CMD+SHIFT+H",
         },
-        linkTool: {
-          class: LinkTool,
-          config: {
-            endpoint: "https://manitun.vercel.app", // Your backend endpoint for url data fetching,
-          },
-        },
+
         list: {
           class: List,
           inlineToolbar: true,
           config: {
-            defaultStyle: "unordered",
+            defaultStyle: "Unordered",
           },
         },
-        embed: {
-          class: Embed,
-          config: {
-            services: {
-              youtube: true,
-              coub: true,
-            },
-          },
-        },
+        code: CodeTool,
         quote: {
           class: Quote,
-          inlineToolbar: true,
+          inlineToolbar: false,
           shortcut: "CMD+SHIFT+O",
           config: {
-            quotePlaceholder: "Enter a quote",
-            captionPlaceholder: "Quote's author",
+            quotePlaceholder: "اقتباس",
+            captionPlaceholder: "من قائل الاقتباس",
           },
         },
         image: {
@@ -253,37 +237,37 @@ export default function EditorUi() {
             },
             toolbar: {
               toolbox: {
-                Add: "Добавить",
+                Add: "اضف",
               },
             },
           },
 
           toolNames: {
-            Text: "Параграф",
+            Text: "فقرة",
             Heading: "عنوان",
-            List: "Список",
-            Warning: "Примечание",
-            Checklist: "Чеклист",
-            Quote: "Цитата",
-            Code: "Код",
+            List: "قائمة",
+            Warning: "تحذير",
+            Quote: "اقتباس",
+            Code: "كود برمجي",
             Delimiter: "Разделитель",
             "Raw HTML": "HTML-фрагмент",
-            Table: "Таблица",
-            Link: "Ссылка",
-            Marker: "Маркер",
-            Bold: "Полужирный",
-            Italic: "Курсив",
-            InlineCode: "Моноширинный",
+            Table: "جدول",
+            Link: "رابط",
+            Marker: "علامة",
+            Bold: "خط غليظ",
+            Italic: "خط مائل",
+            InlineCode: "سطر برمجي",
+            Image: "صورة",
           },
 
           tools: {
             warning: {
-              Title: "Название",
-              Message: "Сообщение",
+              Title: "عنوان",
+              Message: "رسالة",
             },
 
             link: {
-              "Add a link": "Вставьте ссылку",
+              "Add a link": "اضف الرابط",
             },
 
             stub: {
@@ -294,13 +278,13 @@ export default function EditorUi() {
 
           blockTunes: {
             delete: {
-              Delete: "Удалить",
+              Delete: "حذف",
             },
             moveUp: {
-              "Move up": "Переместить вверх",
+              "Move up": "نقل الي الاعلي",
             },
             moveDown: {
-              "Move down": "Переместить вниз",
+              "Move down": "نقل الي الاسفل",
             },
           },
         },
@@ -342,12 +326,12 @@ export default function EditorUi() {
           name="title"
           value={formData.title}
           onChange={handleChange}
-          className="border-none focus-within:border-none outline-none text-3xl pr-3 pl-12 py-1 font-extrabold placeholder:text-stone-400 text-right flex justify-end w-full"
-          dir="auto"
+          className="border-none focus-within:border-none outline-none text-3xl p-3 bg-secondary placeholder:text-stone-500 text-right flex justify-end w-full"
+          dir="rtl"
         />
         <div
           id="editorjs"
-          className="dark:bg-stone-800 mb-5 w-full *:dark:text-white my-4"
+          className="dark:bg-stone-500 mb-5 w-full *:dark:text-white my-4"
         ></div>
         <input
           type="text"

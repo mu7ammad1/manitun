@@ -18,9 +18,13 @@ import "@/app/editor.css";
 
 import GetStory from "@/rendering/get/getStory";
 import dynamic from "next/dynamic";
+import { FiLoader } from "react-icons/fi";
+import User_more_section from "./user_more_section";
 
 const HeetProfile = dynamic(() => import("./HeetProfile"), { ssr: false });
-const Forehead = dynamic(() => import("./forehead"), { ssr: true });
+const User_details_section = dynamic(() => import("./user_details_section"), {
+  ssr: false,
+});
 
 const ArticleShot = ({ params }) => {
   const editorInstance = useRef(null);
@@ -91,15 +95,17 @@ const ArticleShot = ({ params }) => {
   }, [loading, contentData]);
 
   return (
-    <main className="flex justify-center">
+    <main className="flex justify-center my-10">
       {loading ? (
-        <span>Loading...</span>
+        <span className="animate-spin">
+          <FiLoader />
+        </span>
       ) : articleData ? (
         <main className="max-w-4xl w-full px-4 my-3">
-          <h1 className={`text-right text-2xl font-bold`}>
+          <h1 className={`text-right text-2xl font-bold mb-3`}>
             {articleData.title}
           </h1>
-          <Suspense fallback={<span>HeetProfile.....</span>}>
+          <Suspense fallback={`HeetProfile.....`}>
             <HeetProfile
               Author={userData.username}
               name={userData.name}
@@ -109,8 +115,10 @@ const ArticleShot = ({ params }) => {
           </Suspense>
           <div
             id={`ViewEditorJS`}
-            className="dark:bg-stone-950 *:dark:text-white w-full"
+            className="dark:bg-stone-950 *:dark:text-white w-full mb-5"
           ></div>
+          <User_details_section Author={userData.username} />
+          <User_more_section />
         </main>
       ) : (
         <span>Article not found.</span>

@@ -16,6 +16,7 @@ import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { Textarea } from "@/components/ui/textarea";
 import { WEBSITEAPI } from "@/app/V";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { FiLoader } from "react-icons/fi";
 
 interface Comments {
   id: string;
@@ -72,7 +73,10 @@ export default function Comment({ articleId }: { articleId: string }) {
   return (
     <Sheet>
       <SheetTrigger onClick={fetchComments}>
-        <Button variant={"outline"} className="rounded-full">
+        <Button
+          variant={"outline"}
+          className="rounded-full bg-black/0 shadow-none border-none"
+        >
           <ChatBubbleIcon className="w-5 h-5" />
         </Button>
       </SheetTrigger>
@@ -80,7 +84,11 @@ export default function Comment({ articleId }: { articleId: string }) {
         <SheetHeader>
           <SheetTitle>التعليقات</SheetTitle>
           <SheetDescription>
-            {loading && <div>Loading...</div>}
+            {loading && (
+              <span className="animate-spin">
+                <FiLoader />
+              </span>
+            )}
             <div className="h-screen flex flex-col justify-between ">
               <div className="overflow-y-auto h-full">
                 {!loading && (

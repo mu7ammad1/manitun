@@ -68,29 +68,31 @@ export default function Likee({ articleIda }) {
     );
   }
 
-  return (
-    <div>
-      {liked ? (
-        <Button
-          variant={"outline"}
-          className="shadow-none rounded-full text-4xl"
-        >
-          <HeartFilledIcon
-            className=" w-5 h-5 text-rose-500"
-            onClick={handleUnlike}
-          />
-        </Button>
-      ) : (
-        <div>
+  return <>{user ? <Component /> : null}</>;
+
+  function Component() {
+    return (
+      <>
+        {liked ? (
           <Button
             variant={"outline"}
-            className="rounded-full text-4xl"
-            onClick={handleLike}
+            className="shadow-none rounded-full text-4xl bg-black/0 border-none"
+            onClick={handleUnlike}
           >
-            <HeartIcon className=" w-5 h-5 " onClick={handleLike} />
+            <HeartFilledIcon className=" w-5 h-5 text-rose-500" />
           </Button>
-        </div>
-      )}
-    </div>
-  );
+        ) : (
+          <div>
+            <Button
+              variant={"outline"}
+              className="rounded-full text-4xl bg-black/0 shadow-none border-none"
+              onClick={handleLike}
+            >
+              <HeartIcon className=" w-5 h-5 " />
+            </Button>
+          </div>
+        )}
+      </>
+    );
+  }
 }
